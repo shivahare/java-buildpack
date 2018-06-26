@@ -38,13 +38,13 @@ module JavaBuildpack
 
             # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
-              @application.services.one_service? FILTER]
+              @application.services.one_service? FILTER
             end
 
         private
 
             FILTER = /oracleapm/
-  
+
             private_constant :FILTER
 
     end
