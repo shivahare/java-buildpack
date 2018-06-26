@@ -20,7 +20,7 @@ require 'component_helper'
 require 'java_buildpack/framework/oracleapm_agent'
 require 'java_buildpack/util/tokenized_version'
 
-describe JavaBuildpack::Framework::OracleAPMAgent do
+describe JavaBuildpack::Framework::OracleapmAgent do
   include_context 'with component help'
 
   context do

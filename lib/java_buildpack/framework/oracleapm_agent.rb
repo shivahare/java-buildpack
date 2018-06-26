@@ -22,7 +22,7 @@ module JavaBuildpack
   module Framework
 
     # Encapsulates the functionality for enabling zero-touch Oracle APM Agent support.
-    class OracleAPMAgent < JavaBuildpack::Component::VersionedDependencyComponent
+    class OracleapmAgent < JavaBuildpack::Component::VersionedDependencyComponent
 
 
     end
