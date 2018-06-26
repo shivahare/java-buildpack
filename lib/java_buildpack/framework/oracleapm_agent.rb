@@ -31,25 +31,9 @@ module JavaBuildpack
 
       # (see JavaBuildpack::Component::BaseComponent#release)
       def release
-        credentials   = @application.services.find_service(FILTER, [LICENSE_KEY, LICENSE_KEY_USER])['credentials']
-
         @droplet.java_opts.add_javaagent(@droplet.sandbox + 'oracleapm/lib/system/ApmAgentInstrumentation.jar')
       end
 
-      protected
-
-      # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
-      def supports?
-        @application.services.one_service? FILTER, ADDRESS
-      end
-
-      ADDRESS = 'address'
-
-      FILTER = /oracleapm/
-
-      private_constant :ADDRESS, :FILTER
-
     end
-
   end
 end
