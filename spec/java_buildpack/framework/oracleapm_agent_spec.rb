@@ -25,9 +25,6 @@ describe JavaBuildpack::Framework::OracleAPMAgent do
 
   context do
 
-    it 'updates JAVA_OPTS' do
-      component.release
-    end
 
   end
 
