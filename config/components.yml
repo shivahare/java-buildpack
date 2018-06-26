@@ -60,6 +60,7 @@ frameworks:
   - "JavaBuildpack::Framework::MariaDbJDBC"
   - "JavaBuildpack::Framework::MetricWriter"
   - "JavaBuildpack::Framework::NewRelicAgent"
+  - "JavaBuildpack::Framework::OracleAPMAgent"
   - "JavaBuildpack::Framework::PostgresqlJDBC"
   - "JavaBuildpack::Framework::ProtectAppSecurityProvider"
   - "JavaBuildpack::Framework::SpringAutoReconfiguration"
