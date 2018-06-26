@@ -33,9 +33,7 @@ module JavaBuildpack
       def release
         credentials   = @application.services.find_service(FILTER, [LICENSE_KEY, LICENSE_KEY_USER])['credentials']
 
-        properties['excludes'] = credentials['excludes'] if credentials.key? 'excludes'
-
-        @droplet.java_opts.add_javaagent_with_props(@droplet.sandbox + 'oracleapm/lib/system/ApmAgentInstrumentation.jar', properties)
+        @droplet.java_opts.add_javaagent(@droplet.sandbox + 'oracleapm/lib/system/ApmAgentInstrumentation.jar')
       end
 
       protected
