@@ -45,5 +45,4 @@ The framework can also be configured by overlaying a set of resources on the def
 [`config/oracel_apm_agent.yml`]: ../config/oracleapm_.yml
 [Oracle APM Service]: http://www.oracle.com/
 [repositories]: extending-repositories.md
-[this listing]: https://java-buildpack.cloudfoundry.org/oracleapm/index.yml
 [version syntax]: extending-repositories.md#version-syntax-and-ordering
