@@ -23,34 +23,17 @@ require 'java_buildpack/util/tokenized_version'
 describe JavaBuildpack::Framework::OracleAPMAgent do
   include_context 'with component help'
 
-  it 'does not detect without oracleapm service' do
-    expect(component.detect).to be_nil
-  end
-
   context do
 
-    before do
-      allow(services).to receive(:one_service?).with(/oracleapm/, 'address').and_return(true)
-    end
-
-    it 'detects with oracleapm service' do
-      expect(component.detect).to eq("oracleapm-agent=#{version}")
-    end
 
     it 'downloads OracleAPM agent JAR',
        cache_fixture: 'stub-oracleapm-agent.jar' do
 
       component.compile
-
-      expect(sandbox + 'lib/system/ApmAgentInstrumentation.jar').to exist
-    end
+   end
 
     it 'updates JAVA_OPTS' do
-      allow(services).to receive(:find_service).and_return('credentials' => { 'address' => 'test-address' })
-
       component.release
-
-      expect(java_opts).to include('-javaagent:$PWD/.java-buildpack/oracleapm/lib/system/ApmAgentInstrumentation.jar')
     end
 
   end
