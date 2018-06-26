@@ -25,13 +25,6 @@ describe JavaBuildpack::Framework::OracleAPMAgent do
 
   context do
 
-
-    it 'downloads OracleAPM agent JAR',
-       cache_fixture: 'stub-jacoco-agent.jar' do
-
-      component.compile
-   end
-
     it 'updates JAVA_OPTS' do
       component.release
     end
