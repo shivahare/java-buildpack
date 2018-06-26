@@ -31,7 +31,7 @@ The credential payload of the service may contain the following entries:
 ## Configuration
 For general information on configuring the buildpack, including how to specify configuration values through environment variables, refer to [Configuration and Extension][].
 
-The framework can be configured by modifying the [`config/jacoc_agent.yml`][] file in the buildpack fork.  The framework uses the [`Repository` utility support][repositories] and so it supports the [version syntax][] defined there.
+The framework can be configured by modifying the [`config/oracleapm_agent.yml`][] file in the buildpack fork.  The framework uses the [`Repository` utility support][repositories] and so it supports the [version syntax][] defined there.
 
 | Name | Description
 | ---- | -----------
@@ -39,7 +39,7 @@ The framework can be configured by modifying the [`config/jacoc_agent.yml`][] fi
 | `version` | The version of Oracle APM Agent to use. Candidate versions can be found in [this listing][].
 
 ### Additional Resources
-The framework can also be configured by overlaying a set of resources on the default distribution.  To do this, add files to the `resources/jacoco_agent` directory in the buildpack fork.  For example, to override the default `jacoco.yml` add your custom file to `resources/jacoco_agent/jacoco.yml`.
+The framework can also be configured by overlaying a set of resources on the default distribution.  To do this, add files to the `resources/jacoco_agent` directory in the buildpack fork.  For example, to override the default `oracleapm.yml` add your custom file to `resources/oracleapm_agent/oracleapm.yml`.
 
 [Configuration and Extension]: ../README.md#configuration-and-extension
 [`config/oracel_apm_agent.yml`]: ../config/oracleapm_.yml
