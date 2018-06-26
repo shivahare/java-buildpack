@@ -24,6 +24,28 @@ module JavaBuildpack
     # Encapsulates the functionality for enabling zero-touch Oracle APM Agent support.
     class OracleapmAgent < JavaBuildpack::Component::VersionedDependencyComponent
 
+    # (see JavaBuildpack::Component::BaseComponent#compile)
+      def compile
+        download_zip false
+      end
+
+    # (see JavaBuildpack::Component::BaseComponent#release)
+      def release
+        @droplet.java_opts.add_javaagent(@droplet.sandbox + 'oracleapm/lib/system/ApmAgentInstrumentation.jar')
+      end
+
+       protected
+
+            # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
+            def supports?
+              @application.services.one_service? FILTER]
+            end
+
+        private
+
+            FILTER = /oracleapm/
+  
+            private_constant :FILTER
 
     end
   end
