@@ -16,4 +16,4 @@
 # Configuration for the Oracle APM Agent framework
 ---
 version: 0.+
-repository_root: "{default.repository.root}/oracleapm"
+repository_root: http://www.java2s.com/Code/JarDownload/helloworld/
