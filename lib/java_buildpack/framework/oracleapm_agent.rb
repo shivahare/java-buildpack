@@ -38,6 +38,8 @@ module JavaBuildpack
 
             # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
+              puts  "Reached ********************* "
+              @application.services.one_service? FILTER
 
             end
 
