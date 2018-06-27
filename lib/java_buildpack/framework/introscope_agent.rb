@@ -40,7 +40,6 @@ module JavaBuildpack
         java_opts
           .add_javaagent(agent_jar)
           .add_system_property('com.wily.introscope.agentProfile', agent_profile)
-          .add_system_property('introscope.agent.hostName', agent_host_name)
           .add_system_property('introscope.agent.MyhostName', agent_host_name)
           .add_system_property('com.wily.introscope.agent.agentName', agent_name(credentials))
           .add_system_property('introscope.agent.defaultProcessName', default_process_name(credentials))
