@@ -38,11 +38,13 @@ module JavaBuildpack
         super(context)
 
         if supports?
+           puts "oracleapm From version support "
           @version, @uri = JavaBuildpack::Repository::ConfiguredItem.find_item(@component_name, @configuration,
                                                                                &version_validator)
         else
           @version = nil
           @uri     = nil
+          puts "oracleapm From version support else"
         end
       end
 
