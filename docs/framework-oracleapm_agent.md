@@ -42,7 +42,7 @@ The framework can be configured by modifying the [`config/oracleapm_agent.yml`][
 The framework can also be configured by overlaying a set of resources on the default distribution.  To do this, add files to the `resources/jacoco_agent` directory in the buildpack fork.  For example, to override the default `oracleapm.yml` add your custom file to `resources/oracleapm_agent/oracleapm.yml`.
 
 [Configuration and Extension]: ../README.md#configuration-and-extension
-[`config/oracel_apm_agent.yml`]: ../config/oracleapm_agent.yml
+[`config/oracleapm_agent.yml`]: ../config/oracleapm_agent.yml
 [Oracle APM Service]: http://www.oracle.com/
 [repositories]: extending-repositories.md
 [version syntax]: extending-repositories.md#version-syntax-and-ordering
