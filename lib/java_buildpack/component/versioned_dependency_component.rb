@@ -41,11 +41,9 @@ module JavaBuildpack
 
           @version, @uri = JavaBuildpack::Repository::ConfiguredItem.find_item(@component_name, @configuration,
                                                                                &version_validator)
-          puts "anand From version support " + @uri
         else
           @version = nil
           @uri     = nil
-          puts "anand From version support else"
         end
       end
 
