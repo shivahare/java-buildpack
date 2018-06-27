@@ -33,7 +33,8 @@ describe JavaBuildpack::Framework::OracleapmAgent do
      end
 
      it 'updates JAVA_OPTS' do
-       allow(services).to receive(:find_service).and_return('credentials' => { 'address' => 'test-address' })
+       puts " ****** AFTER COMPILE , BEFORE RELEASE 88888888888 "
+      # allow(services).to receive(:find_service).and_return('credentials' => { 'address' => 'test-address' })
 
        component.release
 
