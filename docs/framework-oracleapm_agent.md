@@ -43,6 +43,7 @@ The framework can also be configured by overlaying a set of resources on the def
 
 [Configuration and Extension]: ../README.md#configuration-and-extension
 [`config/oracel_apm_agent.yml`]: ../config/oracleapm_.yml
+[`config/oracleapm_agent.yml`]: ../config/oracleapm_agent.yml
 [Oracle APM Service]: http://www.oracle.com/
 [repositories]: extending-repositories.md
 [version syntax]: extending-repositories.md#version-syntax-and-ordering
