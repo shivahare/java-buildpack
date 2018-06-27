@@ -27,13 +27,7 @@ describe JavaBuildpack::Framework::OracleapmAgent do
      expect(component.detect).to be_nil
    end
 
-  it 'expands Oracleapm agent zip', cache_fixture: 'stub-oracleapm-agent.jar' do
-       puts "Calling compile from spec"
-      component.compile
-  end
-
    context do
-
 
      it 'downloads OracleAPM agent JAR',
         cache_fixture: 'stub-oracleapm-agent.jar' do
