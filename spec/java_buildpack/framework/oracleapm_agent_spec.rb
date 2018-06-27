@@ -23,12 +23,10 @@ require 'java_buildpack/util/tokenized_version'
 describe JavaBuildpack::Framework::OracleapmAgent do
   include_context 'with component help'
 
-  it 'does not detect without oracleapm service' do
-     expect(component.detect).to be_nil
-   end
 
    context do
 
+     puts "From agent spec"
      it 'downloads OracleAPM agent JAR',
         cache_fixture: 'helloworld-1.10.jar.zip' do
         component.compile
