@@ -31,11 +31,7 @@ describe JavaBuildpack::Framework::OracleapmAgent do
 
      it 'downloads OracleAPM agent JAR',
         cache_fixture: 'stub-oracleapm-agent.jar' do
-           puts "Calling compile from spec context do"
-       component.compile
-         puts "Done compile from spec context do"
-       expect(sandbox + 'lib/system/ApmAgentInstrumentation.jar').to exist
-         puts "Done expect check from spec context do"
+        component.compile
      end
 
      it 'updates JAVA_OPTS' do
