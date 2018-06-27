@@ -32,7 +32,7 @@ module JavaBuildpack
 
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
-        @droplet.java_opts.add_system_property('oracleapm.agent.hostName', 'apm_agent_host_name')
+
       end
 
        protected

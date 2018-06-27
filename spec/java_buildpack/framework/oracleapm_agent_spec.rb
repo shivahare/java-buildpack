@@ -33,12 +33,7 @@ describe JavaBuildpack::Framework::OracleapmAgent do
      end
 
      it 'updates JAVA_OPTS' do
-       puts " ****** AFTER COMPILE , BEFORE RELEASE 88888888888 "
-      # allow(services).to receive(:find_service).and_return('credentials' => { 'address' => 'test-address' })
-
        component.release
-
-       # expect(java_opts).to include('-javaagent:$PWD/.java-buildpack/oracleapm/lib/system/ApmAgentInstrumentation.jar')
      end
 
    end
