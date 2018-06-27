@@ -26,7 +26,9 @@ module JavaBuildpack
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
-        download_zip false
+        puts "Downloading jar"
+        download_jar
+        puts "Downloaded jar"
       end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
@@ -39,8 +41,6 @@ module JavaBuildpack
             # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
               puts  "Reached ********************* "
-              @application.services.one_service? FILTER
-
             end
 
         private
