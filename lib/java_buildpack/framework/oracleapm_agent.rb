@@ -40,7 +40,8 @@ module JavaBuildpack
            # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
               puts "oracleapm From Oracle "
-              @application.services.one_service? FILTER, ADDRESS
+             # @application.services.one_service? FILTER, ADDRESS
+              return true
             end
 
             ADDRESS = 'address'

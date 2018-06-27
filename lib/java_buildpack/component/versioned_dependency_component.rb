@@ -43,8 +43,8 @@ module JavaBuildpack
                                                                                &version_validator)
           puts "oracleapm From version support " + @uri
         else
-          @version = 0
-          @uri  = "http://www.java2s.com/Code/JarDownload/helloworld/helloworld-1.10.jar.zip"
+          @version = nil
+          @uri     = nil
           puts "oracleapm From version support else"
         end
       end
