@@ -26,6 +26,7 @@ module JavaBuildpack
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
+        puts "downloading jar"
         download_jar
       end
 
