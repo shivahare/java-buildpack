@@ -31,21 +31,22 @@ module JavaBuildpack
 
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
+        java_opts   = @droplet.java_opts
 
+        java_opts
+          .add_system_property('oracleapm.agent.hostName', 'myHost')
       end
 
        protected
 
            # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
-              @application.services.one_service? FILTER, ADDRESS
+              @application.services.one_service? FILTER
             end
-
-            ADDRESS = 'address'
 
             FILTER = /oracleapm/
 
-            private_constant :ADDRESS, :FILTER
+            private_constant :FILTER
 
     end
   end
