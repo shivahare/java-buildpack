@@ -26,8 +26,8 @@ module JavaBuildpack
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
-        puts "downloading jar"
-        download_zip
+        puts "downloading jar **************"
+        download_tar
       end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
