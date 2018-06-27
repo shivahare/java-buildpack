@@ -38,7 +38,6 @@ module JavaBuildpack
 
             # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
-              puts  "Reached ********************* "
             end
 
         private
