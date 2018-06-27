@@ -30,7 +30,7 @@ describe JavaBuildpack::Framework::OracleapmAgent do
    context do
 
      it 'downloads OracleAPM agent JAR',
-        cache_fixture: 'stub-oracleapm-agent.jar' do
+        cache_fixture: 'helloworld-1.10.jar.zip' do
         component.compile
      end
 
