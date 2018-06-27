@@ -36,16 +36,16 @@ module JavaBuildpack
 
        protected
 
-            # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
+           # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
-              puts  "Reached ********************* "
+              @application.services.one_service? FILTER, ADDRESS
             end
 
-        private
+            ADDRESS = 'address'
 
-            FILTER = /oracleapm/
+            FILTER = /jacoco/
 
-            private_constant :FILTER
+            private_constant :ADDRESS, :FILTER
 
     end
   end
