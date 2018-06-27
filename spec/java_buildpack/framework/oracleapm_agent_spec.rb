@@ -26,9 +26,8 @@ describe JavaBuildpack::Framework::OracleapmAgent do
 
    context do
 
-     puts "From agent spec"
      it 'downloads OracleAPM agent JAR',
-        cache_fixture: 'helloworld-1.10.jar.zip' do
+        cache_fixture: 'stub-introscope-agent.tar' do
         component.compile
      end
 
