@@ -26,15 +26,12 @@ module JavaBuildpack
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
-        download_zip
+        download_zip false
       end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
-        java_opts   = @droplet.java_opts
-
-        java_opts
-          .add_system_property('oracleapm.agent.hostName', 'myHost')
+        @droplet.java_opts.add_javaagent(@droplet.sandbox + 'oracleapm_agent/lib/system/ApmAgentInstrumentation.jar')
       end
 
        protected
