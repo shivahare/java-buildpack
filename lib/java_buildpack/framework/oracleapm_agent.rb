@@ -31,7 +31,7 @@ module JavaBuildpack
 
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
-       # @droplet.java_opts.add_javaagent(@droplet.sandbox + 'lib/system/ApmAgentInstrumentation.jar')
+        @droplet.java_opts.add_javaagent(@droplet.sandbox + 'lib/system/ApmAgentInstrumentation.jar')
       end
 
        protected
