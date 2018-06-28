@@ -27,6 +27,7 @@ module JavaBuildpack
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         download_zip false
+        run_provision_script(100, 'regkey', 'http://my.oracle.com')
       end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
