@@ -166,14 +166,23 @@ module JavaBuildpack
       end
 
 
-     def run_provision_script(tenant_id, regkey, omc_url, gateway_host, gateway_port, proxy_host, proxy_port, classifications, proxy_auth_token, additional_gateway,
+     def run_provision_script(tenant_id, regkey, omc_url, gateway_host, gateway_port, proxy_host, proxy_port,
+                             classifications, proxy_auth_token, additional_gateway,
                              target_directory = @droplet.sandbox,
                              name = @component_name)
          shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
-         puts "#{tenant_id}"
-         puts "#{regkey}"
-         puts "#{omc_url}"
-         puts "#{@droplet.java_home.root}"
+         puts "tenant_id : #{tenant_id}"
+         puts "regkey : #{regkey}"
+         puts "omc_url : #{omc_url}"
+         puts "gateway_host : #{gateway_host}"
+         puts "gateway_port : #{gateway_port}"
+         puts "proxy_host : #{proxy_host}"
+         puts "proxy_port : #{proxy_port}"
+         puts "classifications : #{classifications}"
+         puts "proxy_auth_token : #{proxy_auth_token}"
+         puts "additional_gateway : #{additional_gateway}"
+         puts "java_home : #{@droplet.java_home.root}"
+
          Dir.chdir target_directory do
            # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -no-prompt -regkey-file #{regkey} -tenant-id #{tenant_id} -omc-server-url #{omc_url} -d #{target_directory}/oracleapm_agent 2>&1"
            shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
