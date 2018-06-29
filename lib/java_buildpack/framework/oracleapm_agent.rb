@@ -45,15 +45,17 @@ module JavaBuildpack
        private
             FILTER = /oracleapm/
 
-            OMC_URL = 'omc_url'
+            OMC_URL         = 'omc_url'
+            TENANT_ID       = 'tenant_id'
+            REGKEY          = 'regkey'
+            GATEWAY_HOST    = 'gateway_host'
+            GATEWAY_PORT    = 'gateway_port'
+            PROXY_HOST      = 'proxy_host'
+            PROXY_PORT      ='proxy_port'
+            NO_WALLET       = 'no_wallet'
+            CLASSIFICATION_STR = 'classification_str'
 
-            REGKEY = 'regkey'
-
-            GATEWAY_HOST = 'gateway_host'
-
-            GATEWAY_PORT = 'gateway_port'
-
-            private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT, :PROXY_HOTS, :PROXY_PORT, :NO_WALLET, :CLASSIFICATION_STR
+            private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT, :PROXY_HOST, :PROXY_PORT, :NO_WALLET, :CLASSIFICATION_STR
 
     end
   end
