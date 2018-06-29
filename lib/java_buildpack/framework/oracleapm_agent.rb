@@ -27,7 +27,7 @@ module JavaBuildpack
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         download_zip false
-        run_provision_script(100, 'regkey', 'http://my.oracle.com')
+        run_provision_script(100, credentials[REGKEY], 'http://my.oracle.com')
       end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
@@ -39,7 +39,7 @@ module JavaBuildpack
 
            # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
-              @application.services.one_service? FILTER, OMC_URL
+              @application.services.one_service? FILTER, REGKEY
             end
 
        private
