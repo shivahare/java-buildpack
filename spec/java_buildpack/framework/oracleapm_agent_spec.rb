@@ -26,6 +26,12 @@ describe JavaBuildpack::Framework::OracleapmAgent do
 
    context do
 
+     before do
+       allow(services).to receive(:find_service).and_return('credentials' => { 'regkey' => 'test-regkey',
+                                                                               'omc-server-url'        => 'test-omc-server-url',
+                                                                               'tenant-id'      => 'test-tenant-id' })
+     end
+
      it 'downloads OracleAPM agent JAR',
         cache_fixture: 'stub-introscope-agent.tar' do
         component.compile

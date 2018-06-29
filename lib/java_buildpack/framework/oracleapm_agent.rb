@@ -27,7 +27,8 @@ module JavaBuildpack
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         download_zip false
-        run_provision_script(100, 'erer', 'http://my.oracle.com')
+        credentials = @application.services.find_service(FILTER)['credentials']
+        run_provision_script(credentials[TENANT_ID], credentials[REGKEY], credentials[OMC_URL])
       end
 
     # (see JavaBuildpack::Component::BaseComponent#release)

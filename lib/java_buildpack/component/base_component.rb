@@ -169,6 +169,9 @@ module JavaBuildpack
        def run_provision_script(tenant_id, regkey, omc_url, target_directory = @droplet.sandbox,
                              name = @component_name)
          shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
+         puts "#{tenant_id}"
+         puts "#{regkey}"
+         puts "#{omc_url}"
          puts "#{@droplet.java_home.root}"
          Dir.chdir target_directory do
            # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -no-prompt -regkey-file #{regkey} -tenant-id #{tenant_id} -omc-server-url #{omc_url} -d #{target_directory}/oracleapm_agent 2>&1"
