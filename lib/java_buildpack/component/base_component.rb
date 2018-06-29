@@ -166,7 +166,8 @@ module JavaBuildpack
       end
 
 
-       def run_provision_script(tenant_id, regkey, omc_url, target_directory = @droplet.sandbox,
+     def run_provision_script(tenant_id, regkey, omc_url, gateway_host, gateway_port, proxy_host, proxy_port, classifications, proxy_auth_token, additional_gateway,
+                             target_directory = @droplet.sandbox,
                              name = @component_name)
          shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
          puts "#{tenant_id}"

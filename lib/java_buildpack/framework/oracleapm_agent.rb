@@ -28,7 +28,7 @@ module JavaBuildpack
       def compile
         download_zip false
         credentials = @application.services.find_service(FILTER)['credentials']
-        run_provision_script(credentials[TENANT_ID], credentials[REGKEY], credentials[OMC_URL])
+        run_provision_script(credentials[TENANT_ID], credentials[REGKEY], credentials[OMC_URL], credentials[GATEWAY_HOST], credentials[GATEWAY_PORT], credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
       end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
@@ -46,17 +46,18 @@ module JavaBuildpack
 
             FILTER = /oracleapm/
 
-            OMC_URL         = 'omc_url'
-            TENANT_ID       = 'tenant_id'
-            REGKEY          = 'regkey'
-            GATEWAY_HOST    = 'gateway_host'
-            GATEWAY_PORT    = 'gateway_port'
-            PROXY_HOST      = 'proxy_host'
-            PROXY_PORT      ='proxy_port'
-            NO_WALLET       = 'no_wallet'
-            CLASSIFICATION_STR = 'classification_str'
+            OMC_URL             = 'omc-server-url'
+            TENANT_ID           = 'tenant-id'
+            REGKEY              = 'regkey'
+            GATEWAY_HOST        = 'gateway-host'
+            GATEWAY_PORT        = 'gateway-port'
+            CLASSIFICATIONS     = 'classifications'
+            PROXY_HOST          = 'ph'
+            PROXY_PORT          = 'pp'
+            PROXY_AUTH_TOKEN    = 'pt'
+            ADDITIONAL_GATEWAY  = 'additional-gateways'
 
-            private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT, :PROXY_HOST, :PROXY_PORT, :NO_WALLET, :CLASSIFICATION_STR
+            private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT, :CLASSIFICATIONS, :PROXY_HOST, :PROXY_PORT,  :PROXY_AUTH_TOKEN, :ADDITIONAL_GATEWAY
 
     end
   end
