@@ -27,11 +27,11 @@ module JavaBuildpack
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         download_zip false
-        run_provision_script(100, 'erer', 'http://my.oracle.com')
       end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
+        run_provision_script(100, 'erer', 'http://my.oracle.com')
         @droplet.java_opts.add_javaagent(@droplet.sandbox + 'apmagent/lib/system/ApmAgentInstrumentation.jar')
       end
 
