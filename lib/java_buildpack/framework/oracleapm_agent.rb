@@ -39,7 +39,7 @@ module JavaBuildpack
 
            # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
-              @application.services.one_service? FILTER, REGKEY
+              @application.services.one_service? FILTER
             end
 
        private
