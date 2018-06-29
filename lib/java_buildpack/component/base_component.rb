@@ -184,28 +184,28 @@ module JavaBuildpack
          puts "java_home : #{@droplet.java_home.root}"
 
          provision_cmd = "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -d #{target_directory} -exact-hostname -no-prompt -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} "
-         if !omc_url.blank?
+         if not_blank?(omc_url)
            provision_cmd << " -omc-server-url #{omc_url}"
          end
-         if !gateway_host.blank?
+         if not_blank?(gateway_host)
            provision_cmd << " -gateway-host #{gateway_host}"
-         end  
-         if !gateway_port.blank?
+         end
+         if not_blank?(gateway_port)
            provision_cmd << " -gateway-port #{gateway_port}"
          end
-         if !proxy_host.blank?
+         if not_blank?(proxy_host)
            provision_cmd << " -ph #{proxy_host}"
          end
-         if !proxy_port.blank?
+         if not_blank?(proxy_port)
            provision_cmd << " -pp #{proxy_port}"
          end
-         if !classifications.blank?
+         if not_blank?(classifications)
            provision_cmd << " -classifications #{classifications}"
          end
-         if !proxy_auth_token.blank?
+         if not_blank?(proxy_auth_token)
            provision_cmd << " -pt #{proxy_auth_token}"
          end
-         if !additional_gateway.blank?
+         if not_blank?(additional_gateway)
            provision_cmd << " -additional-gateways #{additional_gateway}"
          end
 
@@ -217,6 +217,10 @@ module JavaBuildpack
            shell "#{provision_cmd}"
          end
        end
+
+        def not_blank?(value)
+          !value.nil? && !value.empty?
+        end
 
       # Wrap the execution of a block with timing information
       #
