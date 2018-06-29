@@ -32,6 +32,7 @@ module JavaBuildpack
 
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
+        credentials            = @application.services.find_service(FILTER, REGKEY)['credentials']
         @droplet.java_opts.add_javaagent(@droplet.sandbox + 'lib/system/ApmAgentInstrumentation.jar')
       end
 
