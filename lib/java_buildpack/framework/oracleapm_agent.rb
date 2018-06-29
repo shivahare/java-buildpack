@@ -32,7 +32,7 @@ module JavaBuildpack
 
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
-        @droplet.java_opts.add_javaagent(@droplet.sandbox + 'lib/system/ApmAgentInstrumentation.jar')
+        @droplet.java_opts.add_javaagent(@droplet.sandbox + 'apmagent/lib/system/ApmAgentInstrumentation.jar')
       end
 
        protected
@@ -42,7 +42,7 @@ module JavaBuildpack
               @application.services.one_service? FILTER
             end
 
-       
+
             FILTER = /oracleapm/
 
             OMC_URL         = 'omc_url'
