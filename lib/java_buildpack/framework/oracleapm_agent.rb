@@ -39,12 +39,21 @@ module JavaBuildpack
 
            # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
-              @application.services.one_service? FILTER
+              @application.services.one_service? FILTER, OMC_URL
             end
 
+       private
             FILTER = /oracleapm/
 
-            private_constant :FILTER
+            OMC_URL = 'omc_url'
+
+            REGKEY = 'regkey'
+
+            GATEWAY_HOST = 'gateway_host'
+
+            GATEWAY_PORT = 'gateway_port'
+
+            private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT, :PROXY_HOTS, :PROXY_PORT, :NO_WALLET, :CLASSIFICATION_STR
 
     end
   end
