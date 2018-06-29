@@ -42,7 +42,7 @@ module JavaBuildpack
               @application.services.one_service? FILTER
             end
 
-       private
+       
             FILTER = /oracleapm/
 
             OMC_URL         = 'omc_url'
