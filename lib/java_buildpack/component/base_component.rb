@@ -183,9 +183,30 @@ module JavaBuildpack
          puts "additional_gateway : #{additional_gateway}"
          puts "java_home : #{@droplet.java_home.root}"
 
+         provision_cmd = "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -d #{target_directory} -exact-hostname -no-prompt -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} "
+          if !omc_url.blank?
+            provision_cmd << " -omc-server-url #{omc_url}"
+         if !gateway_host.blank?
+           provision_cmd << " -gateway-host #{gateway_host}"
+         if !gateway_port.blank?
+           provision_cmd << " -gateway-port #{gateway_port}"
+         if !proxy_host.blank?
+           provision_cmd << " -ph #{proxy_host}"
+         if !proxy_port.blank?
+           provision_cmd << " -pp #{proxy_port}"
+         if !classifications.blank?
+           provision_cmd << " -classifications #{classifications}"
+         if !proxy_auth_token.blank?
+           provision_cmd << " -pt #{proxy_auth_token}"
+         if !additional_gateway.blank?
+           provision_cmd << " -additional-gateways #{additional_gateway}"
+
+         provision_cmd << " 2>&1"
+         puts "command : #{provision_cmd}"
+
          Dir.chdir target_directory do
-           # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -no-prompt -regkey-file #{regkey} -tenant-id #{tenant_id} -omc-server-url #{omc_url} -d #{target_directory}/oracleapm_agent 2>&1"
-           shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
+           #shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
+           shell "#{provision_cmd}"
          end
        end
 
