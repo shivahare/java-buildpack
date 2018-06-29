@@ -23,16 +23,10 @@ require 'java_buildpack/util/tokenized_version'
 describe JavaBuildpack::Framework::OracleapmAgent do
   include_context 'with component help'
 
-    it 'does not detect without oracleapm service' do
-      expect(component.detect).to be_nil
-    end
 
    context do
 
-     before do
-       allow(services).to receive(:one_service?).with(/oracleapm/, 'regkey').and_return(true)
-     end
-
+   
      it 'downloads OracleAPM agent JAR',
         cache_fixture: 'stub-introscope-agent.tar' do
         component.compile
