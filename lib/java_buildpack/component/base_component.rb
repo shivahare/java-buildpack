@@ -184,22 +184,30 @@ module JavaBuildpack
          puts "java_home : #{@droplet.java_home.root}"
 
          provision_cmd = "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -d #{target_directory} -exact-hostname -no-prompt -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} "
-          if !omc_url.blank?
-            provision_cmd << " -omc-server-url #{omc_url}"
+         if !omc_url.blank?
+           provision_cmd << " -omc-server-url #{omc_url}"
+         end
          if !gateway_host.blank?
            provision_cmd << " -gateway-host #{gateway_host}"
+         end  
          if !gateway_port.blank?
            provision_cmd << " -gateway-port #{gateway_port}"
+         end
          if !proxy_host.blank?
            provision_cmd << " -ph #{proxy_host}"
+         end
          if !proxy_port.blank?
            provision_cmd << " -pp #{proxy_port}"
+         end
          if !classifications.blank?
            provision_cmd << " -classifications #{classifications}"
+         end
          if !proxy_auth_token.blank?
            provision_cmd << " -pt #{proxy_auth_token}"
+         end
          if !additional_gateway.blank?
            provision_cmd << " -additional-gateways #{additional_gateway}"
+         end
 
          provision_cmd << " 2>&1"
          puts "command : #{provision_cmd}"
