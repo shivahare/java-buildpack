@@ -33,10 +33,6 @@ describe JavaBuildpack::Framework::OracleapmAgent do
        allow(services).to receive(:one_service?).with(/oracleapm/, 'regkey').and_return(true)
      end
 
-     it 'detects with oracleapm service' do
-          expect(component.detect).to eq("oracleapm-agent=#{version}")
-     end
-
      it 'downloads OracleAPM agent JAR',
         cache_fixture: 'stub-introscope-agent.tar' do
         component.compile
