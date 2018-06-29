@@ -27,13 +27,11 @@ module JavaBuildpack
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         download_zip false
-        credentials            = @application.services.find_service(FILTER, REGKEY)['credentials']
-        run_provision_script(100, credentials[REGKEY], 'http://my.oracle.com')
+        run_provision_script(100, 'erer', 'http://my.oracle.com')
       end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
-
         @droplet.java_opts.add_javaagent(@droplet.sandbox + 'lib/system/ApmAgentInstrumentation.jar')
       end
 

@@ -26,15 +26,12 @@ describe JavaBuildpack::Framework::OracleapmAgent do
 
    context do
 
-   
      it 'downloads OracleAPM agent JAR',
         cache_fixture: 'stub-introscope-agent.tar' do
         component.compile
      end
 
      it 'updates JAVA_OPTS' do
-     allow(services).to receive(:find_service).and_return('credentials' => { 'regkey' => 'test-regkey' })
-
        component.release
      end
 
