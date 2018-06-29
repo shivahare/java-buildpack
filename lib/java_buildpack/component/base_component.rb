@@ -176,7 +176,7 @@ module JavaBuildpack
          puts "#{@droplet.java_home.root}"
          Dir.chdir target_directory do
            # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -no-prompt -regkey-file #{regkey} -tenant-id #{tenant_id} -omc-server-url #{omc_url} -d #{target_directory}/oracleapm_agent 2>&1"
-           shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet  -d #{target_directory} -exact-hostname -no-prompt -omc-server-url #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
+           shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
          end
        end
 
