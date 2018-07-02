@@ -170,8 +170,7 @@ module JavaBuildpack
                              classifications, proxy_auth_token, additional_gateway,
                              target_directory = @droplet.sandbox,
                              name = @component_name)
-         shell "ls #{target_directory}/.."
-
+         shell "ls #{target_directory}/"
          shell "ls @droplet.sandbox"
          shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
          puts "tenant_id : #{tenant_id}"
