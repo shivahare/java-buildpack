@@ -27,7 +27,7 @@ module JavaBuildpack
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         credentials = @application.services.find_service(FILTER)['credentials']
-        download_zip false
+        download_zip(@version, @uri,false, @droplet.sandbox, @component_name)
         run_provision_script(credentials[TENANT_ID], credentials[REGKEY], credentials[OMC_URL], credentials[GATEWAY_HOST], credentials[GATEWAY_PORT], credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
       end
 
