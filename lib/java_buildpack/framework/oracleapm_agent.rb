@@ -57,8 +57,8 @@ module JavaBuildpack
             PROXY_PORT          = 'pp'
             PROXY_AUTH_TOKEN    = 'pt'
             ADDITIONAL_GATEWAY  = 'additional-gateways'
-            AGENT_ZIP_VERSION   = 'agent-uri'
-            AGENT_ZIP_URI       = 'agent-version'
+            AGENT_ZIP_VERSION   = 'agent-version'
+            AGENT_ZIP_URI       = 'agent-uri'
 
             private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT,
             :CLASSIFICATIONS, :PROXY_HOST, :PROXY_PORT,  :PROXY_AUTH_TOKEN, :ADDITIONAL_GATEWAY,
