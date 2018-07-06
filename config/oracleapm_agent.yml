@@ -16,4 +16,4 @@
 # Configuration for the Oracle APM Agent framework
 ---
 version: 18.+
-repository_root: https://check-app-ok.cfapps.io/apm-agents
+repository_root: "{default.repository.root}/oracleapm"
