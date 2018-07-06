@@ -43,7 +43,7 @@ module JavaBuildpack
 
            # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
             def supports?
-              @application.services.one_service? FILTER
+              @application.services.one_service? FILTER, REGKEY, AGENT_ZIP_URI
             end
 
 
