@@ -24,11 +24,15 @@ describe JavaBuildpack::Framework::OracleapmAgent do
   include_context 'with component help'
 
 
+    it 'does not detect without oracleapm agent service' do
+       expect(component.detect).to be_nil
+     end
+
    context do
 
      before do
-       allow(services).to receive(:find_service).and_return('credentials' => { 'regkey' => 'test-regkey',
-                                                                               'omc-server-url'        => 'test-omc-server-url',
+       allow(services).to receive(:find_service).and_return('credentials' => { 'regkey'         => 'test-regkey',
+                                                                               'omc-server-url' => 'test-omc-server-url',
                                                                                'tenant-id'      => 'test-tenant-id' })
      end
 
