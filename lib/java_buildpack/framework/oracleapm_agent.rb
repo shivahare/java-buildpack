@@ -30,7 +30,6 @@ module JavaBuildpack
       def initialize(context)
         super(context)
         @version, @uri = agent_download_url if supports?
-        @logger        = JavaBuildpack::Logging::LoggerFactory.instance.get_logger OracleAPMAgent
       end
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
@@ -44,7 +43,7 @@ module JavaBuildpack
       end
 
       def agent_download_url
-        ['latest', credentials[AGENT_ZIP_URI]]
+        ['latest', 'https://check-app-ok-2.cfapps.io/apm-agents/index.yml']
       end
 
       def credentials
