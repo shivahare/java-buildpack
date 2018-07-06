@@ -33,7 +33,7 @@ describe JavaBuildpack::Framework::OracleapmAgent do
      end
 
      it 'downloads OracleAPM agent JAR',
-        cache_fixture: 'stub-oracleapm-agent.tar' do
+        cache_fixture: 'stub-oracleapm-agent.jar' do
         component.compile
      end
 
