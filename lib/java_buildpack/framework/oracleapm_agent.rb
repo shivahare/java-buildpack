@@ -42,13 +42,7 @@ module JavaBuildpack
         run_provision_script(credentials[TENANT_ID], credentials[REGKEY], credentials[OMC_URL], credentials[GATEWAY_HOST], credentials[GATEWAY_PORT], credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
       end
 
-      def agent_download_url
-        ['latest', 'https://check-app-ok-2.cfapps.io/apm-agents/index.yml']
-      end
 
-      def credentials
-        @application.services.find_service(FILTER, REGKEY, AGENT_ZIP_URI)['credentials']
-      end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
@@ -83,5 +77,14 @@ module JavaBuildpack
             :AGENT_ZIP_VERSION, :AGENT_ZIP_URI
 
     end
+
+    def agent_download_url
+      ['latest', credentials[AGENT_ZIP_URI]]
+    end
+
+    def credentials
+      @application.services.find_service(FILTER, REGKEY, AGENT_ZIP_URI)['credentials']
+    end
+
   end
 end
