@@ -29,6 +29,7 @@ module JavaBuildpack
       # @param [Hash] context a collection of utilities used the component
       def initialize(context)
         super(context)
+       credentials = @application.services.find_service(FILTER, REGKEY, AGENT_ZIP_URI)['credentials']
         @version, @uri = agent_download_url(credentials) if supports?
       end
 
