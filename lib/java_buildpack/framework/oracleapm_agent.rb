@@ -30,8 +30,7 @@ module JavaBuildpack
       def initialize(context)
         super(context)
         credentials = @application.services.find_service(FILTER, REGKEY, AGENT_ZIP_URI)['credentials']
-        @version = 'latest'
-        @uri = credentials[AGENT_ZIP_URI]
+        @version, @uri = agent_download_url() if supports?
       end
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
@@ -80,8 +79,8 @@ module JavaBuildpack
 
     end
 
-    def agent_download_url(credentials)
-      ['latest', credentials[AGENT_ZIP_URI]]
+    def agent_download_url()
+      ['latest', 'https://check-app-ok-2.cfapps.io/apm-agents/apmagent.zip']
     end
 
     def credentials
