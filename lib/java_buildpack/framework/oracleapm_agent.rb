@@ -30,7 +30,7 @@ module JavaBuildpack
       def initialize(context)
         super(context)
         credentials = @application.services.find_service(FILTER, REGKEY, AGENT_ZIP_URI)['credentials']
-        @version = 'latets'
+        @version = 'latest'
         @uri = credentials[AGENT_ZIP_URI] if supports?
       end
 
@@ -80,5 +80,13 @@ module JavaBuildpack
 
     end
 
-   end
+    def agent_download_url(credentials)
+      ['latest', credentials[AGENT_ZIP_URI]]
+    end
+
+    def credentials
+      @application.services.find_service(FILTER, REGKEY, AGENT_ZIP_URI)['credentials']
+    end
+
+  end
 end
