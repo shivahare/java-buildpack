@@ -31,7 +31,7 @@ module JavaBuildpack
         super(context)
         credentials = @application.services.find_service(FILTER, REGKEY, AGENT_ZIP_URI)['credentials']
         @version = 'latest'
-        @uri = credentials[AGENT_ZIP_URI] if supports?
+        @uri = credentials[AGENT_ZIP_URI]
       end
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
