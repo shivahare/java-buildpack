@@ -29,7 +29,7 @@ module JavaBuildpack
       # @param [Hash] context a collection of utilities used the component
       def initialize(context)
         super(context)
-        @version, @uri = agent_download_url if supports?
+        @version, @uri = agent_download_url(credentials) if supports?
       end
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
@@ -78,7 +78,7 @@ module JavaBuildpack
 
     end
 
-    def agent_download_url
+    def agent_download_url(credentials)
       ['latest', credentials[AGENT_ZIP_URI]]
     end
 
