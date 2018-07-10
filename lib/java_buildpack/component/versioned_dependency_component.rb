@@ -93,9 +93,9 @@ module JavaBuildpack
         super(@version, @uri, strip_top_level, target_directory, name)
       end
 
-      def download_zip(version, uri, strip_top_level = false, target_directory = @droplet.sandbox, name = @component_name)
-        super(version, uri, strip_top_level, target_directory, name)
-      end
+      #def download_zip(version, uri, strip_top_level = false, target_directory = @droplet.sandbox, name = @component_name)
+      #  super(version, uri, strip_top_level, target_directory, name)
+      #end
 
 
       # A generated JAR name for the component.  Meets the format +<component-id>-<version>.jar+
