@@ -29,25 +29,20 @@ module JavaBuildpack
       # @param [Hash] context a collection of utilities used the component
       def initialize(context)
         super(context)
-        @version, @uri = agent_download_url if supports?
+        @version, @uri = agent_download_uri if supports?
 
       end
 
-      def agent_download_url
-       credentials = @application.services.find_service(FILTER)['credentials']
-       uri = credentials[AGENT_ZIP_URI]
-       # ['latest', 'https://check-app-ok-2.cfapps.io/apm-agents/apmagent.zip']
-       ['latest', uri]
+      def agent_download_uri
+        credentials = @application.services.find_service(FILTER)['credentials']
+        uri = credentials[AGENT_ZIP_URI]
+        ['latest', uri]
       end
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         credentials = @application.services.find_service(FILTER)['credentials']
-        puts "******* "
-        puts @uri
         download_zip false
-       #download_zip(credentials[AGENT_ZIP_VERSION],  credentials[AGENT_ZIP_URI])
-       #download_zip(@version,  @uri)
         run_provision_script(credentials[TENANT_ID], credentials[REGKEY], credentials[OMC_URL], credentials[GATEWAY_HOST], credentials[GATEWAY_PORT], credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
       end
 
@@ -78,12 +73,11 @@ module JavaBuildpack
             PROXY_PORT          = 'pp'
             PROXY_AUTH_TOKEN    = 'pt'
             ADDITIONAL_GATEWAY  = 'additional-gateways'
-            AGENT_ZIP_VERSION   = 'agent-version'
             AGENT_ZIP_URI       = 'agent-uri'
 
             private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT,
             :CLASSIFICATIONS, :PROXY_HOST, :PROXY_PORT,  :PROXY_AUTH_TOKEN, :ADDITIONAL_GATEWAY,
-            :AGENT_ZIP_VERSION, :AGENT_ZIP_URI
+            :AGENT_ZIP_URI
 
     end
   end
