@@ -16,5 +16,5 @@
 # Configuration for the Oracle APM Agent framework
 ---
 version: 32
-enabled: false
+oracleapmenabled: false
 
