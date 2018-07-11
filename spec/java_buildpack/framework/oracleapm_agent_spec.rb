@@ -29,6 +29,7 @@ describe JavaBuildpack::Framework::OracleapmAgent do
      end
 
    context do
+     let(:configuration) { { 'enabled' => true, 'version' => 32 } }
 
      before do
        allow(services).to receive(:find_service).and_return('credentials' => { 'regkey'         => 'test-regkey',

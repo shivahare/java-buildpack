@@ -22,16 +22,21 @@ module JavaBuildpack
   module Framework
 
     # Encapsulates the functionality for enabling zero-touch Oracle APM Agent support.
-    class OracleapmAgent < JavaBuildpack::Component::VersionedDependencyComponent
+    class OracleapmAgent < JavaBuildpack::Component::BaseComponent
 
     # Creates an instance
       #
       # @param [Hash] context a collection of utilities used the component
       def initialize(context)
         super(context)
-        @version, @uri = agent_download_uri if supports?
+        @version, @uri = agent_download_uri if enabled?
 
       end
+
+       # (see JavaBuildpack::Component::BaseComponent#detect)
+       def detect
+         enabled? ? "#{self.class.to_s.dash_case}=32" : nil
+       end
 
       def agent_download_uri
         credentials = @application.services.find_service(FILTER)['credentials']
@@ -46,7 +51,9 @@ module JavaBuildpack
         run_provision_script(credentials[TENANT_ID], credentials[REGKEY], credentials[OMC_URL], credentials[GATEWAY_HOST], credentials[GATEWAY_PORT], credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
       end
 
-
+     def enabled?
+        @configuration['enabled']
+     end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
