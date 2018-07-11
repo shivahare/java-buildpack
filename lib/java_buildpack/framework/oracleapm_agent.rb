@@ -52,9 +52,7 @@ module JavaBuildpack
       end
 
      def enabled?
-        credentials = @application.services.find_service(FILTER)['credentials']
-        uri = credentials[AGENT_ZIP_URI]
-        not_blank?(uri)
+        true
      end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
