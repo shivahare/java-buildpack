@@ -16,4 +16,4 @@
 # Configuration for the Oracle APM Agent framework
 ---
 version: 0.+
-repository_root: "{default.repository.root}/jacoco"
+repository_root: "https://github.com/shivahare/java-buildpack/blob/shivahare_patch_1/"
