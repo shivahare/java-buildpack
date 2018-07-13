@@ -38,7 +38,7 @@ module JavaBuildpack
         super(context)
 
         if supports?
-
+          puts @component_name  
           @version, @uri = JavaBuildpack::Repository::ConfiguredItem.find_item(@component_name, @configuration,
                                                                                &version_validator)
         else
