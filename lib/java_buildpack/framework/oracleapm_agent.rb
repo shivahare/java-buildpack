@@ -34,8 +34,13 @@ module JavaBuildpack
       end
 
        # (see JavaBuildpack::Component::BaseComponent#detect)
+      # def detect
+      #   puts #{self.class.to_s.dash_case}
+      #   enabled? ? "#{self.class.to_s.dash_case}=32" : nil
+      # end
+
        def detect
-         enabled? ? "#{self.class.to_s.dash_case}=32" : nil
+        @version ? id(@version) : nil
        end
 
       def agent_download_uri
