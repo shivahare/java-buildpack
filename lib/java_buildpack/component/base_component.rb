@@ -220,9 +220,9 @@ module JavaBuildpack
            # shell "echo #{myJavaHome} > ProvisionApmJavaAsAgent_CF.sh"
 
            #shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
-           #shell "sed -e 's/^_java=/_java=#{myJavaHome}/g' ProvisionApmJavaAsAgent_tmp.sh > ProvisionApmJavaAsAgent_CF.sh"
+           shell "sed -e 's/^_java=/_java=#{myJavaHome}/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_CF.sh"
 
-           shell "cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh"
+           #shell "cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh"
 
            shell "chmod +x ProvisionApmJavaAsAgent_CF.sh"
            shell "#{provision_cmd.string}"
