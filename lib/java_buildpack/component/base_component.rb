@@ -212,20 +212,16 @@ module JavaBuildpack
 
          provision_cmd << " 2>&1"
          puts "command : #{provision_cmd.string}"
-
          Dir.chdir target_directory do
-           #shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
-           myJavaHome="MY_JAVA_HOME=#{@droplet.java_home.root}/bin/java"
-           puts " java : #{myJavaHome}"
-           shell "echo #{myJavaHome} > ProvisionApmJavaAsAgent_CF.sh"
-
-           shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
-           shell "sed -e 's/^_java=/_java=$MY_JAVA_HOME/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
-
-           #shell "cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh"
-
-           shell "chmod +x ProvisionApmJavaAsAgent_CF.sh"
-           shell "#{provision_cmd.string}"
+         #shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
+         javaBin="JAVA_BIN=#{@droplet.java_home.root}/bin/java"
+         puts " java : #{javaBin}"
+         shell "echo #{javaBin} > ProvisionApmJavaAsAgent_CF.sh"
+         shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
+         shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
+         shell "rm ProvisionApmJavaAsAgent_tmp.sh"
+         shell "chmod +x ProvisionApmJavaAsAgent_CF.sh"
+         shell "#{provision_cmd.string}"
          end
        end
 
