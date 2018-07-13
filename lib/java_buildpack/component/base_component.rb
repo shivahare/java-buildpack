@@ -184,7 +184,7 @@ module JavaBuildpack
          puts "java_home : #{@droplet.java_home.root}"
 
          provision_cmd = StringIO.new
-         provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey #{regkey} -no-wallet -d #{target_directory} -exact-hostname -no-prompt -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} "
+         provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey #{regkey} -no-wallet -d #{target_directory} -exact-hostname -no-prompt -tenant-id  #{tenant_id} "
          if not_blank?(omc_url)
            provision_cmd << " -omc-server-url #{omc_url}"
          end
