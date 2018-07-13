@@ -35,7 +35,6 @@ module JavaBuildpack
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         credentials = @application.services.find_service(FILTER)['credentials']
-        puts "******* "
         puts @uri
         download_zip('latest',  credentials[AGENT_ZIP_URI])
        #download_zip(@version,  @uri)
