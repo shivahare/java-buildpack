@@ -38,15 +38,18 @@ module JavaBuildpack
         super(context)
 
         if supports?
-         # if !@component_name.nil?
-         #   puts @component_name
-         # end
           @version, @uri = JavaBuildpack::Repository::ConfiguredItem.find_item(@component_name, @configuration,
                                                                                &version_validator)
         else
           @version = nil
           @uri     = nil
         end
+      end
+
+      def initialize(context, version_validator)
+        super(context)
+        @version = nil
+        @uri     = nil
       end
 
       # (see JavaBuildpack::Component::BaseComponent#detect)
