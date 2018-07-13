@@ -219,8 +219,8 @@ module JavaBuildpack
            puts " java : #{myJavaHome}"
            shell "echo #{myJavaHome} > ProvisionApmJavaAsAgent_CF.sh"
 
-           #shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
-           shell "sed -e 's/^_java=/_java=$MY_JAVA_HOME/g' ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh"
+           shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
+           shell "sed -e 's/^_java=/_java=$MY_JAVA_HOME/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
 
            #shell "cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh"
 
