@@ -211,7 +211,7 @@ module JavaBuildpack
          end
 
          provision_cmd << " 2>&1"
-         
+
          puts "command : #{provision_cmd.string}"
          Dir.chdir target_directory do
          #shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
