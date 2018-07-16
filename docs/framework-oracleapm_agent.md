@@ -9,11 +9,7 @@ The Oracle APM Agent Framework causes an application to be automatically configu
       </ul>
     </td>
   </tr>
-  <tr>
-    <td><strong>Tags</strong></td>
-    <td><tt>oracleapm-agent=&lt;version&gt;</tt></td>
-  </tr>
-</table>
+ </table>
 Tags are printed to standard output by the buildpack detect script
 
 ## User-Provided Service (Optional)
@@ -38,11 +34,3 @@ The framework can be configured by modifying the [`config/oracleapm_agent.yml`][
 | `repository_root` | The URL of the Oracle APM Agent repository index ([details][repositories]).
 | `version` | The version of Oracle APM Agent to use. Candidate versions can be found in [this listing][].
 
-### Additional Resources
-The framework can also be configured by overlaying a set of resources on the default distribution.  To do this, add files to the `resources/jacoco_agent` directory in the buildpack fork.  For example, to override the default `oracleapm.yml` add your custom file to `resources/oracleapm_agent/oracleapm.yml`.
-
-[Configuration and Extension]: ../README.md#configuration-and-extension
-[`config/oracleapm_agent.yml`]: ../config/oracleapm_agent.yml
-[Oracle APM Service]: http://www.oracle.com/
-[repositories]: extending-repositories.md
-[version syntax]: extending-repositories.md#version-syntax-and-ordering
