@@ -37,6 +37,7 @@ module JavaBuildpack
         credentials = @application.services.find_service(FILTER)['credentials']
         agentUri = credentials[AGENT_ZIP_URI]
         ['latest', agentUri]
+        puts "agent uri : #{agentUri}"
       end
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
@@ -49,6 +50,7 @@ module JavaBuildpack
         gatewayH = credentials[GATEWAY_HOST]
         gatewayP = credentials[GATEWAY_PORT]
 
+        puts "downloading apm agent"
         # download APm agent zip file
         download_zip false
 
