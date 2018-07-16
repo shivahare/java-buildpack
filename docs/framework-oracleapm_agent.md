@@ -19,18 +19,16 @@ The credential payload of the service may contain the following entries:
 
 | Name | Description
 | ---- | -----------
-| `address` | The host for the agent to connect to
-| `excludes` | (Optional) A list of class names that should be excluded from execution analysis. The list entries are separated by a colon (:) and may use wildcard characters (* and ?).
-| `includes` | (Optional) A list of class names that should be included in execution analysis. The list entries are separated by a colon (:) and may use wildcard characters (* and ?).
-| `port` | (Optional) The port for the agent to connect to
+| `additional-gateways` |  (Optional) Comma separated list of gateway URLs. A valid gateway URL is in this format: https://host:port
+| `agent-uri` | Downloadable APM agent installer location.  
+| `classifications` | (Optional) Specify a classifications string that will be sent to the OMC server
+| `gateway-host` | (Optional) The gateway host through which the APM java agent communicates with the OMC server.
+| `gateway-port` | (Optional) Gateway port.
+| `omc-server-url` | Specify the url of the omc server. This parameter is mandatory                                  if the agent zip file was not obtained from the omc server.                                  This parameter is expected to be in the format https://<host>:<port>.
+| `ph` | (Optional) Specify your HTTP Proxy Host. If the APM Agent must use an HTTP proxy, this is the proxy's hostname.
+| `pp` | (Optional) Specify your HTTP Proxy Port. If the APM Agent must use a n HTTPproxy, this is the proxy's port.
+| `pt` | (Optional) Specify the HTTP Proxy Authorization Token to use. If the APM Agent must use an HTTP proxy that requires authentication, this is the *proxy* authorization token the APM Agent will use. It will be added to the APM Agent's credential store that gets provisioned here (i.e., either an Oracle "auto-login" Wallet or the "alternative" credential                     store if a Wallet is not being used.
+| `regkey` | Agent registration key.  This parameter is mandatory. 
+| `tenant-id` | Specify the tenant id. This parameter is mandatory if the agent zip file was not obtained from the omc server.
 
-## Configuration
-For general information on configuring the buildpack, including how to specify configuration values through environment variables, refer to [Configuration and Extension][].
-
-The framework can be configured by modifying the [`config/oracleapm_agent.yml`][] file in the buildpack fork.  The framework uses the [`Repository` utility support][repositories] and so it supports the [version syntax][] defined there.
-
-| Name | Description
-| ---- | -----------
-| `repository_root` | The URL of the Oracle APM Agent repository index ([details][repositories]).
-| `version` | The version of Oracle APM Agent to use. Candidate versions can be found in [this listing][].
 
