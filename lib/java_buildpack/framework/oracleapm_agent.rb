@@ -29,15 +29,21 @@ module JavaBuildpack
       # @param [Hash] context a collection of utilities used the component
       def initialize(context)
         super(context)
-      #  @version, @uri = ['latest', 'https://check-app-ok-2.cfapps.io/apm-agents/apmagent.zip']
+        @version, @uri = ['latest', 'https://check-app-ok-2.cfapps.io/apm-agents/apmagent.zip']
       end
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         credentials = @application.services.find_service(FILTER)['credentials']
-        puts @uri
+        agentUri = credentials[AGENT_ZIP_URI]
+        regKey   = credentials[REGKEY]
+        omcUrl   = credentials[OMC_URL]
+        gatewayH = credentials[GATEWAY_HOST]
+        gatewayP = credentials[GATEWAY_PORT]
+        puts agentUri
         download_zip('latest',  credentials[AGENT_ZIP_URI])
-       #download_zip(@version,  @uri)
+        #download_zip(@version,  @uri)
+
         run_provision_script(credentials[TENANT_ID], credentials[REGKEY], credentials[OMC_URL], credentials[GATEWAY_HOST], credentials[GATEWAY_PORT], credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
       end
 
