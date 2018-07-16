@@ -29,7 +29,7 @@ module JavaBuildpack
       # @param [Hash] context a collection of utilities used the component
       def initialize(context)
         super(context)
-       # @version, @uri = agent_download_url if supports?
+        @version, @uri = agent_download_url if supports?
       end
 
 
@@ -51,8 +51,9 @@ module JavaBuildpack
 
         puts @uri
 
-         download_zip('latest',  credentials[AGENT_ZIP_URI])
+        #download_zip('latest',  credentials[AGENT_ZIP_URI])
         #download_zip(@version,  @uri)
+        download_zip true
 
         #run_provision_script(tenantId, regKey, omcUrl, gatewayH, gatewayP, credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
         run_apm_provision_script(tenantId, regKey, omcUrl, gatewayH, gatewayP, credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
