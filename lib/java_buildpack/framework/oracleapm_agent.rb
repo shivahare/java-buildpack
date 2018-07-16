@@ -29,7 +29,7 @@ module JavaBuildpack
       # @param [Hash] context a collection of utilities used the component
       def initialize(context)
         super(context)
-        @version, @uri = agent_download_url if supports?
+       # @version, @uri = agent_download_url if supports?
       end
 
 
