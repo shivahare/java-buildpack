@@ -53,7 +53,7 @@ module JavaBuildpack
 
         #download_zip('latest',  credentials[AGENT_ZIP_URI])
         #download_zip(@version,  @uri)
-        download_zip true
+        download_zip false
 
         #run_provision_script(tenantId, regKey, omcUrl, gatewayH, gatewayP, credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
         run_apm_provision_script(tenantId, regKey, omcUrl, gatewayH, gatewayP, credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
