@@ -49,10 +49,10 @@ module JavaBuildpack
         gatewayH = credentials[GATEWAY_HOST]
         gatewayP = credentials[GATEWAY_PORT]
 
-        // download APm agent zip file
+        # download APm agent zip file
         download_zip false
 
-        // Run apm provisioning script to install agent
+        # Run apm provisioning script to install agent
         run_apm_provision_script(tenantId, regKey, omcUrl, gatewayH, gatewayP, credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
       end
 
