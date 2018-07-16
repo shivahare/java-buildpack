@@ -44,7 +44,8 @@ module JavaBuildpack
 
         puts agentUri
 
-        download_zip('latest',  credentials[AGENT_ZIP_URI])
+        #download_zip('latest',  credentials[AGENT_ZIP_URI])
+        download_apm_agent_zip('latest',  credentials[AGENT_ZIP_URI])
         #download_zip(@version,  @uri)
 
         #run_provision_script(tenantId, regKey, omcUrl, gatewayH, gatewayP, credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
@@ -52,7 +53,11 @@ module JavaBuildpack
       end
 
 
-       def run_apm_provision_script(tenant_id, regkey, omc_url, gateway_host, gateway_port, proxy_host, proxy_port,
+      def download_apm_agent_zip(version, uri, strip_top_level = false, target_directory = @droplet.sandbox, name = @component_name)
+        super(version, uri, strip_top_level, target_directory, name)
+      end
+
+      def run_apm_provision_script(tenant_id, regkey, omc_url, gateway_host, gateway_port, proxy_host, proxy_port,
                                    classifications, proxy_auth_token, additional_gateway,
                                    target_directory = @droplet.sandbox,
                                    name = @component_name)
