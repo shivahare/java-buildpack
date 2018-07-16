@@ -29,7 +29,7 @@ module JavaBuildpack
       # @param [Hash] context a collection of utilities used the component
       def initialize(context)
         super(context)
-        @version, @uri = ['latest', 'https://check-app-ok-2.cfapps.io/apm-agents/apmagent.zip']
+        #@version, @uri = ['latest', 'https://check-app-ok-2.cfapps.io/apm-agents/apmagent.zip']
       end
 
     # (see JavaBuildpack::Component::BaseComponent#compile)
