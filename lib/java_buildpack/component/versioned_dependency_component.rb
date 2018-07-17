@@ -46,6 +46,10 @@ module JavaBuildpack
         end
       end
 
+       def initialize(context, pram1, pram2)
+          super(context)
+       end
+
       # (see JavaBuildpack::Component::BaseComponent#detect)
       def detect
         @version ? id(@version) : nil
