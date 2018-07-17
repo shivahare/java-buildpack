@@ -48,7 +48,6 @@ module JavaBuildpack
         omcUrl   = credentials[OMC_URL]
         gatewayH = credentials[GATEWAY_HOST]
         gatewayP = credentials[GATEWAY_PORT]
-
         # download APm agent zip file
         download_zip false
         #expect(@droplet.sandbox + "ProvisionApmJavaAsAgent.sh").to exist
@@ -62,6 +61,7 @@ module JavaBuildpack
                                    target_directory = @droplet.sandbox,
                                    name = @component_name)
        shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
+       puts "component name = #{name}"
        puts "tenant_id : #{tenant_id}"
        puts "regkey : #{regkey}"
        puts "omc_url : #{omc_url}"
