@@ -15,5 +15,3 @@
 
 # Configuration for the Oracle APM Agent framework
 ---
-version: 0.+
-repository_root: "{default.repository.root}/jacoco"
