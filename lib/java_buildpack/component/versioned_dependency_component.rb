@@ -42,6 +42,7 @@ module JavaBuildpack
             @version, @uri = JavaBuildpack::Repository::ConfiguredItem.find_item(@component_name, @configuration,
                                                                                &version_validator)
           end
+        end
         else
           @version = nil
           @uri     = nil
