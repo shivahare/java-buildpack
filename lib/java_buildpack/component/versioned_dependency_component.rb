@@ -34,21 +34,21 @@ module JavaBuildpack
       #
       # @param [Hash] context a collection of utilities used by components
       # @param [Block, nil] version_validator an optional version validation block
-      def initialize(context, &version_validator)
+      def initialize(context, &version_validator, &checkVersion=true)
         super(context)
 
         if supports?
-          @version, @uri = JavaBuildpack::Repository::ConfiguredItem.find_item(@component_name, @configuration,
+          if checkVersion?
+            @version, @uri = JavaBuildpack::Repository::ConfiguredItem.find_item(@component_name, @configuration,
                                                                                &version_validator)
+          end
         else
           @version = nil
           @uri     = nil
         end
       end
 
-       def initialize(context, pram1, pram2)
-          super(context)
-       end
+
 
       # (see JavaBuildpack::Component::BaseComponent#detect)
       def detect
