@@ -27,8 +27,8 @@ module JavaBuildpack
     # Creates an instance
       #
       # @param [Hash] context a collection of utilities used the component
-      def initialize(context, nil, false)
-        super(context, context, context)
+      def initialize(context)
+        super(context)
         @version, @uri = agent_download_url if supports?
       end
 

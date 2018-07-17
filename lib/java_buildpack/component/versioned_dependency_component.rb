@@ -37,12 +37,12 @@ module JavaBuildpack
       def initialize(context, &version_validator)
         super(context)
 
+        oracleapm = 'oracleapm'
         if supports?
-          if "oracleapm" != @component_name
+          if oracleapm != @component_name
             @version, @uri = JavaBuildpack::Repository::ConfiguredItem.find_item(@component_name, @configuration,
                                                                                &version_validator)
           end
-        end
         else
           @version = nil
           @uri     = nil
