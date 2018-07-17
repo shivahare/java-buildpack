@@ -16,4 +16,4 @@
 # Configuration for the Oracle APM Agent framework
 ---
 version: 0.+
-repository_root: "ENV['ORACLE_APM_REPO']"
+repository_root: "{ENV['ORACLE_APM_REPO']}"
