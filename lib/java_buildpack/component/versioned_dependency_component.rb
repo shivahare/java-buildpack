@@ -34,7 +34,7 @@ module JavaBuildpack
       #
       # @param [Hash] context a collection of utilities used by components
       # @param [Block, nil] version_validator an optional version validation block
-      def initialize(context, &version_validator, &checkVersion=true)
+      def initialize(context, &version_validator, checkVersion=true)
         super(context)
 
         if supports?
