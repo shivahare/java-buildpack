@@ -57,7 +57,7 @@ module JavaBuildpack
                                  credentials[V], credentials[DEBUG], credentials[INSECURE], credentials[H])
 
         cert = credentials[CERTIFICATE]
-        apm_cert = @component_name/oracleapm_agent/apmagent/config/apm.cer
+        apm_cert = "@component_name/oracleapm_agent/apmagent/config/apm.cer"
         shall "echo  -----BEGIN CERTIFICATE----- > #{apm_cert}"
         shall "echo  #{cert} > #{apm_cert}"
         shall "echo  -----END CERTIFICATE----- > #{apm_cert}"
