@@ -58,10 +58,10 @@ module JavaBuildpack
 
         cert = credentials[CERTIFICATE]
         apm_cert = "@component_name/oracleapm_agent/apmagent/config/apm.cer"
-        shall "echo  -----BEGIN CERTIFICATE----- > #{apm_cert}"
-        shall "echo  #{cert} > #{apm_cert}"
-        shall "echo  -----END CERTIFICATE----- > #{apm_cert}"
-        shall "echo oracle.apmaas.common.pathToCertificate = ./apm.cer >>  @component_name/oracleapm_agent/apmagent/config/AgentStartup.properties"
+        shell "echo  -----BEGIN CERTIFICATE----- > #{apm_cert}"
+        shell "echo  #{cert} > #{apm_cert}"
+        shell "echo  -----END CERTIFICATE----- > #{apm_cert}"
+        shell "echo oracle.apmaas.common.pathToCertificate = ./apm.cer >>  @component_name/oracleapm_agent/apmagent/config/AgentStartup.properties"
       end
 
 
