@@ -54,7 +54,7 @@ module JavaBuildpack
         # Run apm provisioning script to install agent
         run_apm_provision_script(tenantId, regKey, omcUrl, gatewayH, gatewayP, credentials[PROXY_HOST], credentials[PROXY_PORT],
                                  credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY],
-                                 credentials[V], credentials[DEBUG], credentials[INSECURE], , credentials[H])
+                                 credentials[V], credentials[DEBUG], credentials[INSECURE], credentials[H])
       end
 
 
