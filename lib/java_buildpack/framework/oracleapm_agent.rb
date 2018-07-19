@@ -55,6 +55,13 @@ module JavaBuildpack
         run_apm_provision_script(tenantId, regKey, omcUrl, gatewayH, gatewayP, credentials[PROXY_HOST], credentials[PROXY_PORT],
                                  credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY],
                                  credentials[V], credentials[DEBUG], credentials[INSECURE], credentials[H])
+
+        cert = credentials[CERTIFICATE]
+        apm_cert = @component_name/oracleapm_agent/apmagent/config/apm.cer
+        shall "echo  -----BEGIN CERTIFICATE----- > #{apm_cert}"
+        shall "echo  #{cert} > #{apm_cert}"
+        shall "echo  -----END CERTIFICATE----- > #{apm_cert}"
+        shall "echo oracle.apmaas.common.pathToCertificate = ./apm.cer >>  @component_name/oracleapm_agent/apmagent/config/AgentStartup.properties"
       end
 
 
@@ -175,10 +182,11 @@ module JavaBuildpack
             DEBUG               = 'debug'
             INSECURE            = 'insecure'
             H                   = 'h'
+            CERTIFICATE         = 'gateway-certificate'
 
             private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT,
             :CLASSIFICATIONS, :PROXY_HOST, :PROXY_PORT,  :PROXY_AUTH_TOKEN, :ADDITIONAL_GATEWAY,
-            :AGENT_ZIP_URI, :V, :DEBUG, :INSECURE, :H
+            :AGENT_ZIP_URI, :V, :DEBUG, :INSECURE, :H, :CERTIFICATE
 
     end
   end
