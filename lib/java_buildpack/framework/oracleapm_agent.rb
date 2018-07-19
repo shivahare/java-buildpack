@@ -156,6 +156,7 @@ module JavaBuildpack
     # (see JavaBuildpack::Component::BaseComponent#release)
       def release
         @droplet.java_opts.add_javaagent(@droplet.sandbox + 'apmagent/lib/system/ApmAgentInstrumentation.jar')
+        @droplet.java_opts.add_system_property('javax.net.debug' ,'ssl')
       end
 
        protected
