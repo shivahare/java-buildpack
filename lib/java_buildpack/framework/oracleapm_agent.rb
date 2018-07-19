@@ -52,12 +52,14 @@ module JavaBuildpack
         download_zip false
         #expect(@droplet.sandbox + "ProvisionApmJavaAsAgent.sh").to exist
         # Run apm provisioning script to install agent
-        run_apm_provision_script(tenantId, regKey, omcUrl, gatewayH, gatewayP, credentials[PROXY_HOST], credentials[PROXY_PORT], credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY])
+        run_apm_provision_script(tenantId, regKey, omcUrl, gatewayH, gatewayP, credentials[PROXY_HOST], credentials[PROXY_PORT],
+                                 credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY],
+                                 credentials[V], credentials[DEBUG], credentials[INSECURE])
       end
 
 
       def run_apm_provision_script(tenant_id, regkey, omc_url, gateway_host, gateway_port, proxy_host, proxy_port,
-                                   classifications, proxy_auth_token, additional_gateway,
+                                   classifications, proxy_auth_token, additional_gateway, v, debug, insecure,
                                    target_directory = @droplet.sandbox,
                                    name = @component_name)
        shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
@@ -73,9 +75,15 @@ module JavaBuildpack
        puts "proxy_auth_token : #{proxy_auth_token}"
        puts "additional_gateway : #{additional_gateway}"
        puts "java_home : #{@droplet.java_home.root}"
+       puts "v : #{v}"
+       puts "debug : #{debug}"
+       puts "insecure : #{insecure}"
 
        provision_cmd = StringIO.new
-       provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey #{regkey} -no-wallet -d #{target_directory} -exact-hostname -no-prompt -tenant-id  #{tenant_id} "
+       provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey #{regkey} -no-wallet -d #{target_directory} -exact-hostname -no-prompt  "
+       if not_blank?(tenant_id)
+        provision_cmd << " -tenant-id  #{tenant_id}"
+       end
        if not_blank?(omc_url)
          provision_cmd << " -omc-server-url #{omc_url}"
        end
@@ -100,6 +108,15 @@ module JavaBuildpack
        if not_blank?(additional_gateway)
          provision_cmd << " -additional-gateways #{additional_gateway}"
        end
+       if not_null?(v)
+         provision_cmd << " -v "
+       end
+       if not_null?(debug)
+         provision_cmd << " -debug "
+       end
+      if not_null?(insecure)
+        provision_cmd << " -insecure "
+      end
 
        provision_cmd << " 2>&1"
        puts "command : #{provision_cmd.string}"
@@ -118,6 +135,10 @@ module JavaBuildpack
 
      def not_blank?(value)
        !value.nil? && !value.empty?
+     end
+
+     def not_null?(value)
+        !value.nil?
      end
 
     # (see JavaBuildpack::Component::BaseComponent#release)
@@ -146,10 +167,13 @@ module JavaBuildpack
             PROXY_AUTH_TOKEN    = 'pt'
             ADDITIONAL_GATEWAY  = 'additional-gateways'
             AGENT_ZIP_URI       = 'agent-uri'
+            V                   = 'v'
+            DEBUG               = 'debug'
+            INSECURE            = 'insecure'
 
             private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT,
             :CLASSIFICATIONS, :PROXY_HOST, :PROXY_PORT,  :PROXY_AUTH_TOKEN, :ADDITIONAL_GATEWAY,
-            :AGENT_ZIP_URI
+            :AGENT_ZIP_URI, :V, :DEBUG, :INSECURE
 
     end
   end
