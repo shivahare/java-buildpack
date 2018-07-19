@@ -57,11 +57,12 @@ module JavaBuildpack
                                  credentials[V], credentials[DEBUG], credentials[INSECURE], credentials[H])
 
         cert = credentials[CERTIFICATE]
-        apm_cert = "@component_name/oracleapm_agent/apmagent/config/apm.cer"
+        target_directory = @droplet.sandbox
+        apm_cert = "#[target_directory}/oracleapm_agent/apmagent/config/apm.cer"
         shell "echo  -----BEGIN CERTIFICATE----- > #{apm_cert}"
         shell "echo  #{cert} > #{apm_cert}"
         shell "echo  -----END CERTIFICATE----- > #{apm_cert}"
-        shell "echo oracle.apmaas.common.pathToCertificate = ./apm.cer >>  @component_name/oracleapm_agent/apmagent/config/AgentStartup.properties"
+        shell "echo oracle.apmaas.common.pathToCertificate = ./apm.cer >>  #{target_directory}/oracleapm_agent/apmagent/config/AgentStartup.properties"
       end
 
 
