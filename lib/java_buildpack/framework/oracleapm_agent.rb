@@ -58,7 +58,7 @@ module JavaBuildpack
 
         cert = credentials[CERTIFICATE]
         target_directory = @droplet.sandbox
-        apm_cert = "#[target_directory}/oracleapm_agent/apmagent/config/apm.cer"
+        apm_cert = "#{target_directory}/oracleapm_agent/apmagent/config/apm.cer"
         shell "echo  -----BEGIN CERTIFICATE----- > #{apm_cert}"
         shell "echo  #{cert} > #{apm_cert}"
         shell "echo  -----END CERTIFICATE----- > #{apm_cert}"
