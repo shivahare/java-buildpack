@@ -99,7 +99,7 @@ module JavaBuildpack
        puts "insecure : #{insecure}"
 
        provision_cmd = StringIO.new
-       provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey #{regkey} -no-wallet -d #{target_directory}  -no-prompt  "
+       provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey #{regkey} -no-wallet -d #{target_directory} -exact-hostname -no-prompt  "
        if not_blank?(tenant_id)
         provision_cmd << " -tenant-id  #{tenant_id}"
        end
@@ -194,7 +194,7 @@ module JavaBuildpack
             INSECURE            = 'insecure'
             H                   = 'h'
             CERTIFICATE         = 'gateway-certificate'
-            NO_CERTIFICATE      = 'no-certificate'
+            NO_CERTIFICATE         = 'no-certificate'
 
             private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT,
             :CLASSIFICATIONS, :PROXY_HOST, :PROXY_PORT,  :PROXY_AUTH_TOKEN, :ADDITIONAL_GATEWAY,
