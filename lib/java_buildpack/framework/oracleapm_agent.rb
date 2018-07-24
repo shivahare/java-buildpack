@@ -67,11 +67,18 @@ module JavaBuildpack
           shell "echo oracle.apmaas.common.pathToCertificate = ./apm.cer >>  #{target_directory}/apmagent/config/AgentStartup.properties"
         end
 
-        noCertificate = credentials[NO_CERTIFICATE]
+        noCertificate = credentials[TRUST_HOST]
         if not_blank?(noCertificate)
           target_directory = @droplet.sandbox
-          #shell "echo oracle.apmaas.common.trustRemoteSSLHost = true >>  #{target_directory}/apmagent/config/AgentStartup.properties"
+          shell "echo oracle.apmaas.common.trustRemoteSSLHost = true >>  #{target_directory}/apmagent/config/AgentStartup.properties"
           shell "echo oracle.apmaas.common.disableHostnameVerification = true >>  #{target_directory}/apmagent/config/AgentStartup.properties"
+        end
+
+        add_startup_props = credentials[ADD_STARTUP_PROPERTIES]
+        if not_blank?(add_startup_props)
+          target_directory = @droplet.sandbox
+          for property in add_startup_props.split(',')
+          shell "echo #{property} >>  #{target_directory}/apmagent/config/AgentStartup.properties"
         end
 
       end
@@ -195,11 +202,11 @@ module JavaBuildpack
             INSECURE            = 'insecure'
             H                   = 'h'
             CERTIFICATE         = 'gateway-certificate'
-            NO_CERTIFICATE         = 'no-certificate'
+            TRUST_HOST         = 'trust-host'
 
             private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT,
             :CLASSIFICATIONS, :PROXY_HOST, :PROXY_PORT,  :PROXY_AUTH_TOKEN, :ADDITIONAL_GATEWAY,
-            :AGENT_ZIP_URI, :V, :DEBUG, :INSECURE, :H, :CERTIFICATE, :NO_CERTIFICATE
+            :AGENT_ZIP_URI, :V, :DEBUG, :INSECURE, :H, :CERTIFICATE, :TRUST_HOST, :ADD_STARTUP_PROPERTIES
 
     end
   end
