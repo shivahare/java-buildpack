@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Cloud Foundry Java Buildpack
-# Copyright 2013-2017 the original author or authors.
+# Copyright 2013-2018 the original author or authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -69,6 +69,7 @@ module JavaBuildpack
 
         noCertificate = credentials[NO_CERTIFICATE]
         if not_blank?(noCertificate)
+          target_directory = @droplet.sandbox
           shell "echo oracle.apmaas.common.trustRemoteSSLHost=true >>  #{target_directory}/apmagent/config/AgentStartup.properties"
         end
 
