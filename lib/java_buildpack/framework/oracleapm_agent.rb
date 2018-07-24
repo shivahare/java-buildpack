@@ -70,7 +70,7 @@ module JavaBuildpack
         noCertificate = credentials[NO_CERTIFICATE]
         if not_blank?(noCertificate)
           target_directory = @droplet.sandbox
-          shell "echo oracle.apmaas.common.trustRemoteSSLHost = true >>  #{target_directory}/apmagent/config/AgentStartup.properties"
+          #shell "echo oracle.apmaas.common.trustRemoteSSLHost = true >>  #{target_directory}/apmagent/config/AgentStartup.properties"
           shell "echo oracle.apmaas.common.disableHostnameVerification = true >>  #{target_directory}/apmagent/config/AgentStartup.properties"
         end
 
