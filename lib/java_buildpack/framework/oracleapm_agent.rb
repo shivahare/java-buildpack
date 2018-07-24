@@ -65,6 +65,7 @@ module JavaBuildpack
           shell "echo  #{cert} >> #{apm_cert}"
           shell "echo  -----END CERTIFICATE----- >> #{apm_cert}"
           shell "echo oracle.apmaas.common.pathToCertificate = ./apm.cer >>  #{target_directory}/apmagent/config/AgentStartup.properties"
+          shell "echo oracle.apmaas.common.trustRemoteSSLHost=true >>  #{target_directory}/apmagent/config/AgentStartup.properties"
         end
 
       end
