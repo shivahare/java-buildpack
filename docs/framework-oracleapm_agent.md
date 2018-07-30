@@ -13,19 +13,24 @@ The Oracle APM Agent Framework causes an application to be automatically configu
 Tags are printed to standard output by the buildpack detect script
 
 ##  Configure ORACLE APM Agent Service
-Below are steps to configure application with APM Agent Service :
+Below are steps to configure application with APM Agent Service : <br/>
 <ol type="1">
- <li>Push application with custom java build : https://github.com/oracleapm/java-buildpack.git#apmagent e.g.
+ <li>Push application with custom java build : https://github.com/oracleapm/java-buildpack.git#apmagent e.g. <br/>
  cf push #app_name -b https://github.com/oracleapm/java-buildpack.git#apmagent
 </li>
 <li>
- Configure oracle apm agent Service e.g.
+ Configure oracle apm agent service using cups e.g. <br/>
  cf cups oracleapm -p "{\"regkey\":\"<regkey value>\",\"tenant-id\":\"<tenant_id>\",\"omc-server-url\":\"<omc service url>\",\"agent-uri\":\"<apmagent.zip http download location>\"}"
 </li>
 <li>
-Restage application : cf restage #app_name
+Restage application <br/> 
+cf restage #app_name
 </li>
 </ol>
+
+## APM Agent Log
+APM agent logs can be accessed from below location <br/>
+app/.java-buildpack/oracleapm_agent/logs/tomcat_instance/   
 
 
 ## User-Provided Service (Optional)
