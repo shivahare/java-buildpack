@@ -12,7 +12,7 @@ The Oracle APM Agent Framework causes an application to be automatically configu
  </table>
 Tags are printed to standard output by the buildpack detect script
 
-##  Configure ORACLE APM Agent Service
+##  Configure Oracle APM Agent Service
 Below are steps to configure application with APM Agent Service : <br/>
 <ol type="1">
  <li>Push application with custom java build : https://github.com/oracleapm/java-buildpack.git#apmagent e.g. <br/>
