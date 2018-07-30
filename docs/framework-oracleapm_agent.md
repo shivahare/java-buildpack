@@ -28,7 +28,7 @@ cf restage #app_name
 </li>
 </ol>
 
-## APM Agent Log
+## APM Agent Logs
 APM agent logs can be accessed from below location <br/>
 app/.java-buildpack/oracleapm_agent/logs/tomcat_instance/   
 
