@@ -44,7 +44,7 @@ module JavaBuildpack
         credentials = @application.services.find_service(FILTER)['credentials']
 
         # download APM agent zip file
-        download_zip false
+        # download_zip true
         # expect(@droplet.sandbox + "ProvisionApmJavaAsAgent.sh").to exist
         # Run apm provisioning script to install agent
         inputmap = create_map_with_variables(credentials)
@@ -122,7 +122,7 @@ module JavaBuildpack
       def run_apm_provision_script(name_parts = {},
                                    target_directory = @droplet.sandbox,
                                    name = @component_name)
-        print_log(name_parts, target_directory, name)
+        print_log(target_directory, name, name_parts)
         log_proxy_gateway_info(name_parts)
         env_provision_cmd(name_parts)
         log_misc_info(name_parts)
@@ -149,34 +149,35 @@ module JavaBuildpack
       end
 
       # Print log
-      def print_log(name_values = {},
-                    target_directory = @droplet.sandbox,
-                    name = @component_name)
-        shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
+      def print_log(target_directory,
+                    name,
+                    name_values = {})
+        # shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
+        puts "check = #{target_directory}"
         puts "component name = #{name}"
         puts 'tenant_id : ' + name_values.fetch('tenantid')
         puts 'reg_key : ' + name_values.fetch('regkey')
         puts 'omc_url : ' + name_values.fetch('omcurl')
-        puts 'gateway_host : ' + name_values.fetch('gatewayh')
-        puts 'gateway_port : ' + name_values.fetch('gatewayp')
+        puts 'gateway_host : ' + name_values.fetch('gatewayh')  if not_null?(name_values.fetch('gatewayh'))
+        puts 'gateway_port : ' + name_values.fetch('gatewayp')  if not_null?(name_values.fetch('gatewayp'))
       end
 
       # Insert log
-      def log_proxy_gateway_info(name_values = {})
-        puts 'proxy_host : ' + name_values.fetch('proxyhost')
-        puts 'proxy_port : ' + name_values.fetch('proxyport')
-        puts 'classifications : ' + name_values.fetch('classifications')
-        puts 'proxy_auth_token : ' + name_values.fetch('proxyauthtoken')
-        puts 'additional_gateways : ' + name_values.fetch('additionalgateway')
+      def log_proxy_gateway_info(nv = {})
+        puts 'proxy_host : ' + nv.fetch('proxyhost') if not_null?(nv.fetch('proxyhost'))
+        puts 'proxy_port : ' + nv.fetch('proxyport') if not_null?(nv.fetch('proxyport'))
+        puts 'classifications : ' + nv.fetch('classifications') if not_null?(nv.fetch('classifications'))
+        puts 'proxy_auth_token : ' + nv.fetch('proxyauthtoken') if not_null?(nv.fetch('proxyauthtoken'))
       end
 
       # Insert log
-      def log_misc_info(name_values = {})
+      def log_misc_info(nv = {})
+        puts 'additional_gateways : ' + nv.fetch('additionalgateway') if not_null?(nv.fetch('additional_gateways'))
         puts "java_home : #{@droplet.java_home.root}"
-        puts 'v : ' + name_values.fetch('v')
-        puts 'h : ' + name_values.fetch('h')
-        puts 'debug : ' + name_values.fetch('debug')
-        puts 'insecure : ' + name_values.fetch('insecure')
+        puts 'v : ' + nv.fetch('v')
+        puts 'h : ' + nv.fetch('h')
+        puts 'debug : ' + nv.fetch('debug')
+        puts 'insecure : ' + nv.fetch('insecure')
       end
 
       # Insert log
