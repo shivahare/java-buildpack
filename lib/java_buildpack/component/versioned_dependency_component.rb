@@ -40,7 +40,9 @@ module JavaBuildpack
         oracleapm = 'Oracleapm Agent'
         if supports?
           if oracleapm != @component_name
-            @version, @uri = JavaBuildpack::Repository::ConfiguredItem.find_item(@component_name, @configuration, &version_validator)
+            @version, @uri = JavaBuildpack::Repository::ConfiguredItem.find_item(@component_name,
+                                                                                 @configuration,
+                                                                                 &version_validator)
           end
         else
           @version = nil

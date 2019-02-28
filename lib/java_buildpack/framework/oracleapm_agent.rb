@@ -32,6 +32,7 @@ module JavaBuildpack
         @version, @uri = agent_download_url if supports?
       end
 
+      # Download Agent URL
       def agent_download_url
         credentials = @application.services.find_service(FILTER)['credentials']
         agent_uri = credentials[AGENT_ZIP_URI]
@@ -41,112 +42,190 @@ module JavaBuildpack
       # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         credentials = @application.services.find_service(FILTER)['credentials']
-        tenant_id = credentials[TENANT_ID]
-        agent_uri = credentials[AGENT_ZIP_URI]
-        regKey = credentials[REGKEY]
-        omc_url = credentials[OMC_URL]
-        gateway_h = credentials[GATEWAY_HOST]
-        gateway_p = credentials[GATEWAY_PORT]
-        # download APm agent zip file
+
+        # download APM agent zip file
         download_zip false
         # expect(@droplet.sandbox + "ProvisionApmJavaAsAgent.sh").to exist
         # Run apm provisioning script to install agent
-        run_apm_provision_script(tenant_id, regKey, omc_url, gateway_h, gateway_p, credentials[PROXY_HOST], credentials[PROXY_PORT],
-                                 credentials[CLASSIFICATIONS], credentials[PROXY_AUTH_TOKEN], credentials[ADDITIONAL_GATEWAY],
-                                 credentials[V], credentials[DEBUG], credentials[INSECURE], credentials[H])
-
+        inputmap = create_map_with_variables(credentials)
+        run_apm_provision_script(inputmap)
         cert = credentials[CERTIFICATE]
-        # use user specified certificates
-        if not_blank?(cert)
-          target_directory = @droplet.sandbox
-          apm_cert = "#{target_directory}/apmagent/config/apm.cer"
-          shell "echo  -----BEGIN CERTIFICATE----- > #{apm_cert}"
-          shell "echo  #{cert} >> #{apm_cert}"
-          shell "echo  -----END CERTIFICATE----- >> #{apm_cert}"
-          shell "echo oracle.apmaas.common.pathToCertificate = ./apm.cer >>  #{target_directory}/apmagent/config/AgentStartup.properties"
-        end
+        validate_cert_not_blank(cert)
 
         no_certificate = credentials[TRUST_HOST]
-        if not_null?(no_certificate)
-          target_directory = @droplet.sandbox
-          shell "echo oracle.apmaas.common.trustRemoteSSLHost = true >>  #{target_directory}/apmagent/config/AgentStartup.properties"
-          shell "echo oracle.apmaas.common.disableHostnameVerification = true >>  #{target_directory}/apmagent/config/AgentStartup.properties"
-        end
+        validate_no_certificate(no_certificate)
 
         add_startup_props = credentials[STARTUP_PROPERTIES]
-        if not_blank?(add_startup_props)
-          target_directory = @droplet.sandbox
-          for property in add_startup_props.split(',')
-            shell "echo #{property} >>  #{target_directory}/apmagent/config/AgentStartup.properties"
-          end
-        end
+        validate_startup_props(add_startup_props)
 
-        target_directory = @droplet.sandbox
-        shell "unzip -x #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar oracle/apmaas/agent/instrumentation/Aspect.filters"
-        shell "sed '/EXCLUDE/a  org.cloudfoundry.tomcat.logging.' oracle/apmaas/agent/instrumentation/Aspect.filters > Aspect.filters_temp"
-        shell 'cat Aspect.filters_temp > oracle/apmaas/agent/instrumentation/Aspect.filters'
-        shell "zip -u #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar oracle/apmaas/agent/instrumentation/Aspect.filters"
-        shell 'rm Aspect.filters_temp'
+        create_aspect_file
+
         # shell "rm -rf oracle"
       end
 
-      def run_apm_provision_script(tenant_id, regkey, omc_url, gateway_host, gateway_port, proxy_host, proxy_port,
-                                   classifications, proxy_auth_token, additional_gateway, v, debug, insecure, hostname,
+      # Create map with env variables
+      def create_map_with_variables(credentials)
+        { 'tenantid' => credentials[TENANT_ID], 'regkey' => credentials[REGKEY],
+          'omcurl' => credentials[OMC_URL], 'gatewayh' => credentials[GATEWAY_HOST],
+          'gatewayp' => credentials[GATEWAY_PORT], 'proxyhost' => credentials[PROXY_HOST],
+          'proxyport' => credentials[PROXY_PORT], 'classifications' => credentials[CLASSIFICATIONS],
+          'proxyauthtoken' => credentials[PROXY_AUTH_TOKEN],
+          'additionalgateway' => credentials[ADDITIONAL_GATEWAY], 'v' => credentials[V],
+          'debug' => credentials[DEBUG], 'insecure' => credentials[INSECURE],
+          'h' => credentials[H] }
+      end
+
+      # Validate the certificate is not blank
+      def validate_cert_not_blank(cert)
+        # use user specified certificates
+        return unless not_blank?(cert)
+        target_directory = @droplet.sandbox
+        agent_startup = "#{target_directory}/apmagent/config/AgentStartup.properties"
+        apm_cert = "#{target_directory}/apmagent/config/apm.cer"
+        shell "echo  -----BEGIN CERTIFICATE----- > #{apm_cert}"
+        shell "echo  #{cert} >> #{apm_cert}"
+        shell "echo  -----END CERTIFICATE----- >> #{apm_cert}"
+        shell 'echo oracle.apmaas.common.pathToCertificate = ./apm.cer >> ' + agent_startup
+      end
+
+      # Validate the certificate is not null
+      def validate_no_certificate(no_certificate)
+        return unless not_null?(no_certificate)
+        target_directory = @droplet.sandbox
+        agent_startup = "#{target_directory}/apmagent/config/AgentStartup.properties"
+        shell 'echo oracle.apmaas.common.trustRemoteSSLHost = true >> ' + agent_startup
+        shell 'echo oracle.apmaas.common.disableHostnameVerification = true >> ' + agent_startup
+      end
+
+      # Validate the add startup properties
+      def validate_startup_props(add_startup_props)
+        return unless not_blank?(add_startup_props)
+        target_directory = @droplet.sandbox
+        agent_startup = "#{target_directory}/apmagent/config/AgentStartup.properties"
+        add_startup_props.split(',').each do |property|
+          shell "echo #{property} >> " + agent_startup
+        end
+      end
+
+      # Create aspect file
+      def create_aspect_file
+        aspect_filters = 'oracle/apmaas/agent/instrumentation/Aspect.filters'
+        target_directory = @droplet.sandbox
+        shell "unzip -x #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar " + aspect_filters
+        shell "sed '/EXCLUDE/a  org.cloudfoundry.tomcat.logging.'" + aspect_filters + ' > Aspect.filters_temp'
+        shell 'cat Aspect.filters_temp > ' + aspect_filters
+        shell "zip -u #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar " + aspect_filters
+        shell 'rm Aspect.filters_temp'
+      end
+
+      # Run the provision script
+      def run_apm_provision_script(name_parts = {},
                                    target_directory = @droplet.sandbox,
                                    name = @component_name)
+        print_log(name_parts, target_directory, name)
+        log_proxy_gateway_info(name_parts)
+        env_provision_cmd(name_parts)
+        log_misc_info(name_parts)
+        build_provision_cmd(target_directory, name_parts)
+        build_provision_cmd_second(target_directory, name_parts)
+        build_provision_cmd_third(name_parts)
+        build_provision_cmd_fourth(target_directory, name_parts)
+        build_provision_cmd_fifth(target_directory)
+
+        # puts "command : #{provision_cmd.string}"
+        Dir.chdir target_directory do
+          # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet
+          # -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url
+          #  #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
+          java_bin = "JAVA_BIN=#{@droplet.java_home.root}/bin/java"
+          puts " java : #{java_bin}"
+          shell "echo #{java_bin} > ProvisionApmJavaAsAgent_CF.sh"
+          shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
+          shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
+          shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
+          shell 'chmod +x ProvisionApmJavaAsAgent_CF.sh'
+          shell provision_cmd.to_s
+        end
+      end
+
+      # Print log
+      def print_log(name_values = {},
+                    target_directory = @droplet.sandbox,
+                    name = @component_name)
         shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
         puts "component name = #{name}"
-        puts "tenant_id : #{tenant_id}"
-        puts "regkey : #{regkey}"
-        puts "omc_url : #{omc_url}"
-        puts "gateway_host : #{gateway_host}"
-        puts "gateway_port : #{gateway_port}"
-        puts "proxy_host : #{proxy_host}"
-        puts "proxy_port : #{proxy_port}"
-        puts "classifications : #{classifications}"
-        puts "proxy_auth_token : #{proxy_auth_token}"
-        puts "additional_gateways : #{additional_gateway}"
-        puts "java_home : #{@droplet.java_home.root}"
-        puts "v : #{v}"
-        puts "h : #{hostname}"
-        puts "debug : #{debug}"
-        puts "insecure : #{insecure}"
+        puts 'tenant_id : ' + name_values.fetch('tenantid')
+        puts 'reg_key : ' + name_values.fetch('regkey')
+        puts 'omc_url : ' + name_values.fetch('omcurl')
+        puts 'gateway_host : ' + name_values.fetch('gatewayh')
+        puts 'gateway_port : ' + name_values.fetch('gatewayp')
+      end
 
+      # Insert log
+      def log_proxy_gateway_info(name_values = {})
+        puts 'proxy_host : ' + name_values.fetch('proxyhost')
+        puts 'proxy_port : ' + name_values.fetch('proxyport')
+        puts 'classifications : ' + name_values.fetch('classifications')
+        puts 'proxy_auth_token : ' + name_values.fetch('proxyauthtoken')
+        puts 'additional_gateways : ' + name_values.fetch('additionalgateway')
+      end
+
+      # Insert log
+      def log_misc_info(name_values = {})
+        puts "java_home : #{@droplet.java_home.root}"
+        puts 'v : ' + name_values.fetch('v')
+        puts 'h : ' + name_values.fetch('h')
+        puts 'debug : ' + name_values.fetch('debug')
+        puts 'insecure : ' + name_values.fetch('insecure')
+      end
+
+      # Insert log
+      def build_provision_cmd(target_directory,
+                              name_values = {})
         provision_cmd = StringIO.new
-        provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey #{regkey} -no-wallet -d #{target_directory} -exact-hostname -no-prompt  "
-        provision_cmd << " -tenant-id  #{tenant_id}" if not_blank?(tenant_id)
-        provision_cmd << " -omc-server-url #{omc_url}" if not_blank?(omc_url)
-        provision_cmd << " -gateway-host #{gateway_host}" if not_blank?(gateway_host)
-        provision_cmd << " -gateway-port #{gateway_port}" if not_blank?(gateway_port)
-        provision_cmd << " -ph #{proxy_host}" if not_blank?(proxy_host)
-        provision_cmd << " -pp #{proxy_port}" if not_blank?(proxy_port)
-        provision_cmd << " -classifications #{classifications}" if not_blank?(classifications)
-        provision_cmd << " -pt #{proxy_auth_token}" if not_blank?(proxy_auth_token)
-        provision_cmd << " -additional-gateways #{additional_gateway}" if not_blank?(additional_gateway)
-        provision_cmd << " -h #{hostname}" if not_blank?(hostname)
+        provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey " + name_values.fetch('regkey') +
+" -no-wallet -d #{target_directory} -exact-hostname -no-prompt"
+        provision_cmd << ' -tenant-id ' + name_values.fetch('tenantid') if not_blank?(tenant_id)
+        provision_cmd << ' -omc-server-url ' + name_values.fetch('omcurl') if not_blank?(omc_url)
+      end
+
+      # Insert log
+      def build_provision_cmd_second(name_values = {})
+        provision_cmd << ' -gateway-host ' + name_values.fetch('gatewayh') if not_blank?(gateway_host)
+        provision_cmd << ' -gateway-port ' + name_values.fetch('gatewayp') if not_blank?(gateway_port)
+        provision_cmd << ' -ph ' + name_values.fetch('proxyhost') if not_blank?(proxy_host)
+      end
+
+      # Insert log
+      def build_provision_cmd_third(name_values = {})
+        provision_cmd << ' -pp ' + name_values.fetch('proxyport') if not_blank?(proxy_port)
+        provision_cmd << ' -classifications ' + name_values.fetch('classifications') if not_blank?(classifications)
+        provision_cmd << ' -pt ' + name_values.fetch('proxyauthtoken') if not_blank?(proxy_auth_token)
+      end
+
+      # Insert log
+      def build_provision_cmd_fourth(target_directory,
+                                     name_values = {})
+        gateway = name_values.fetch('additionalgateway')
+        provision_cmd << " -additional-gateways #{gateway}" if not_blank?(additional_gateway)
+        env_provision_cmd_fourth(target_directory, name_values)
+        provision_cmd << ' -h ' + name_values.fetch('h') if not_blank?(hostname)
+      end
+
+      # Insert log
+      def build_provision_cmd_fifth(target_directory)
         provision_cmd << ' -v ' if not_null?(v)
         provision_cmd << ' -debug ' if not_null?(debug)
         provision_cmd << ' -insecure ' if not_null?(insecure)
-
         provision_cmd << "  > #{target_directory}/provisionApmAgent.log "
-        puts "command : #{provision_cmd.string}"
-        Dir.chdir target_directory do
-         # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
-         java_bin = "JAVA_BIN=#{@droplet.java_home.root}/bin/java"
-         puts " java : #{java_bin}"
-         shell "echo #{java_bin} > ProvisionApmJavaAsAgent_CF.sh"
-         shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
-         shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
-         shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
-         shell 'chmod +x ProvisionApmJavaAsAgent_CF.sh'
-         shell "#{provision_cmd.string}"
-       end
       end
 
+      # Insert log
       def not_blank?(value)
         !value.nil? && !value.empty?
       end
 
+      # Insert log
       def not_null?(value)
         !value.nil?
       end
