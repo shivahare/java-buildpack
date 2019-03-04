@@ -44,7 +44,7 @@ module JavaBuildpack
         credentials = @application.services.find_service(FILTER)['credentials']
 
         # download APM agent zip file
-        # download_zip true
+        download_zip false
         # expect(@droplet.sandbox + "ProvisionApmJavaAsAgent.sh").to exist
         # Run apm provisioning script to install agent
         inputmap = create_map_with_variables(credentials)
@@ -124,13 +124,14 @@ module JavaBuildpack
                                    name = @component_name)
         print_log(target_directory, name, name_parts)
         log_proxy_gateway_info(name_parts)
-        env_provision_cmd(name_parts)
         log_misc_info(name_parts)
-        build_provision_cmd(target_directory, name_parts)
-        build_provision_cmd_second(target_directory, name_parts)
-        build_provision_cmd_third(name_parts)
-        build_provision_cmd_fourth(target_directory, name_parts)
-        build_provision_cmd_fifth(target_directory)
+        log_additional_info(name_parts)
+        provision_cmd = StringIO.new
+        build_provision_cmd(provision_cmd, target_directory, name_parts)
+        build_provision_cmd_second(provision_cmd, name_parts)
+        build_provision_cmd_third(provision_cmd, name_parts)
+        build_provision_cmd_fourth(provision_cmd, name_parts)
+        build_provision_cmd_fifth(provision_cmd, target_directory, name_parts)
 
         # puts "command : #{provision_cmd.string}"
         Dir.chdir target_directory do
@@ -172,52 +173,53 @@ module JavaBuildpack
 
       # Insert log
       def log_misc_info(nv = {})
-        puts 'additional_gateways : ' + nv.fetch('additionalgateway') if not_null?(nv.fetch('additional_gateways'))
+        puts 'additional_gateways : ' + nv.fetch('additionalgateway') if not_null?(nv.fetch('additionalgateway'))
         puts "java_home : #{@droplet.java_home.root}"
-        puts 'v : ' + nv.fetch('v')
-        puts 'h : ' + nv.fetch('h')
-        puts 'debug : ' + nv.fetch('debug')
-        puts 'insecure : ' + nv.fetch('insecure')
+        puts 'v : ' + nv.fetch('v') if not_null?(nv.fetch('v'))
       end
 
       # Insert log
-      def build_provision_cmd(target_directory,
-                              name_values = {})
-        provision_cmd = StringIO.new
-        provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey " + name_values.fetch('regkey') +
+      def log_additional_info(nv = {})
+        puts 'h : ' + nv.fetch('h') if not_null?(nv.fetch('h'))
+        puts 'debug : ' + nv.fetch('debug') if not_null?(nv.fetch('debug'))
+        puts 'insecure : ' + nv.fetch('insecure') if not_null?(nv.fetch('insecure'))
+      end
+
+      # Insert log
+      def build_provision_cmd(provision_cmd, target_directory,
+                              nv = {})
+        provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey " + nv.fetch('regkey') +
 " -no-wallet -d #{target_directory} -exact-hostname -no-prompt"
-        provision_cmd << ' -tenant-id ' + name_values.fetch('tenantid') if not_blank?(tenant_id)
-        provision_cmd << ' -omc-server-url ' + name_values.fetch('omcurl') if not_blank?(omc_url)
+        provision_cmd << ' -tenant-id ' + nv.fetch('tenantid') if not_blank?(nv.fetch('tenantid'))
+        provision_cmd << ' -omc-server-url ' + nv.fetch('omcurl') if not_blank?(nv.fetch('omcurl'))
       end
 
       # Insert log
-      def build_provision_cmd_second(name_values = {})
-        provision_cmd << ' -gateway-host ' + name_values.fetch('gatewayh') if not_blank?(gateway_host)
-        provision_cmd << ' -gateway-port ' + name_values.fetch('gatewayp') if not_blank?(gateway_port)
-        provision_cmd << ' -ph ' + name_values.fetch('proxyhost') if not_blank?(proxy_host)
+      def build_provision_cmd_second(provision_cmd, nv = {})
+        provision_cmd << ' -gateway-host ' + nv.fetch('gatewayh') if not_blank?(nv.fetch('gatewayh'))
+        provision_cmd << ' -gateway-port ' + nv.fetch('gatewayp') if not_blank?(nv.fetch('gatewayp'))
+        provision_cmd << ' -ph ' + nv.fetch('proxyhost') if not_blank?(nv.fetch('proxyhost'))
       end
 
       # Insert log
-      def build_provision_cmd_third(name_values = {})
-        provision_cmd << ' -pp ' + name_values.fetch('proxyport') if not_blank?(proxy_port)
-        provision_cmd << ' -classifications ' + name_values.fetch('classifications') if not_blank?(classifications)
-        provision_cmd << ' -pt ' + name_values.fetch('proxyauthtoken') if not_blank?(proxy_auth_token)
+      def build_provision_cmd_third(provision_cmd, nv = {})
+        provision_cmd << ' -pp ' + nv.fetch('proxyport') if not_blank?(nv.fetch('proxyport'))
+        provision_cmd << ' -classifications ' + nv.fetch('classifications') if not_blank?(nv.fetch('classifications'))
+        provision_cmd << ' -pt ' + nv.fetch('proxyauthtoken') if not_blank?(nv.fetch('proxyauthtoken'))
       end
 
       # Insert log
-      def build_provision_cmd_fourth(target_directory,
-                                     name_values = {})
-        gateway = name_values.fetch('additionalgateway')
-        provision_cmd << " -additional-gateways #{gateway}" if not_blank?(additional_gateway)
-        env_provision_cmd_fourth(target_directory, name_values)
-        provision_cmd << ' -h ' + name_values.fetch('h') if not_blank?(hostname)
+      def build_provision_cmd_fourth(provision_cmd, nv = {})
+        gateway = nv.fetch('additionalgateway')
+        provision_cmd << " -additional-gateways #{gateway}" if not_blank?(nv.fetch('additionalgateway'))
+        provision_cmd << ' -h ' + nv.fetch('h') if not_blank?(nv.fetch('h'))
       end
 
       # Insert log
-      def build_provision_cmd_fifth(target_directory)
-        provision_cmd << ' -v ' if not_null?(v)
-        provision_cmd << ' -debug ' if not_null?(debug)
-        provision_cmd << ' -insecure ' if not_null?(insecure)
+      def build_provision_cmd_fifth(provision_cmd, target_directory, nv = {})
+        provision_cmd << ' -v ' if not_null?(nv.fetch('v'))
+        provision_cmd << ' -debug ' if not_null?(nv.fetch('debug'))
+        provision_cmd << ' -insecure ' if not_null?(nv.fetch('insecure'))
         provision_cmd << "  > #{target_directory}/provisionApmAgent.log "
       end
 
