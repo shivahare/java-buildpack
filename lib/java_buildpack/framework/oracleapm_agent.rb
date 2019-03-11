@@ -158,9 +158,9 @@ module JavaBuildpack
         shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
         puts "check = #{target_directory}"
         puts "component name = #{name}"
-        puts 'tenant_id : ' + name_values.fetch('tenantid')
-        puts 'reg_key : ' + name_values.fetch('regkey')
-        puts 'omc_url : ' + name_values.fetch('omcurl')
+        puts 'tenant_id : ' + name_values.fetch('tenantid') if not_null?(name_values.fetch('tenantid'))
+        puts 'reg_key : ' + name_values.fetch('regkey') if not_null?(name_values.fetch('regkey'))
+        puts 'omc_url : ' + name_values.fetch('omcurl') if not_null?(name_values.fetch('omcurl'))
         puts 'gateway_host : ' + name_values.fetch('gatewayh') if not_null?(name_values.fetch('gatewayh'))
       end
 
