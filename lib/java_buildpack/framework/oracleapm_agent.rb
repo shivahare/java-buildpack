@@ -160,20 +160,20 @@ module JavaBuildpack
         puts 'tenant_id : ' + name_values.fetch('tenantid')
         puts 'reg_key : ' + name_values.fetch('regkey')
         puts 'omc_url : ' + name_values.fetch('omcurl')
-        puts 'gateway_host : ' + name_values.fetch('gatewayh')  if not_null?(name_values.fetch('gatewayh'))
-        puts 'gateway_port : ' + name_values.fetch('gatewayp')  if not_null?(name_values.fetch('gatewayp'))
+        puts 'gateway_host : ' + name_values.fetch('gatewayh') if not_null?(name_values.fetch('gatewayh'))
       end
 
       # Insert log
       def log_proxy_gateway_info(nv = {})
+        puts 'gateway_port : ' + nv.fetch('gatewayp') if not_null?(nv.fetch('gatewayp'))
         puts 'proxy_host : ' + nv.fetch('proxyhost') if not_null?(nv.fetch('proxyhost'))
         puts 'proxy_port : ' + nv.fetch('proxyport') if not_null?(nv.fetch('proxyport'))
         puts 'classifications : ' + nv.fetch('classifications') if not_null?(nv.fetch('classifications'))
-        puts 'proxy_auth_token : ' + nv.fetch('proxyauthtoken') if not_null?(nv.fetch('proxyauthtoken'))
       end
 
       # Insert log
       def log_misc_info(nv = {})
+        puts 'proxy_auth_token : ' + nv.fetch('proxyauthtoken') if not_null?(nv.fetch('proxyauthtoken'))
         puts 'additional_gateways : ' + nv.fetch('additionalgateway') if not_null?(nv.fetch('additionalgateway'))
         puts "java_home : #{@droplet.java_home.root}"
         puts 'v : ' + nv.fetch('v') if not_null?(nv.fetch('v'))
