@@ -134,7 +134,7 @@ module JavaBuildpack
         build_provision_cmd_fourth(provision_cmd, name_parts)
         build_provision_cmd_fifth(provision_cmd, target_directory, name_parts)
 
-        # puts "command : #{provision_cmd.string}"
+        puts "command : #{provision_cmd.string}"
         Dir.chdir target_directory do
           # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet
           # -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url
