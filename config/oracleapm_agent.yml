@@ -15,5 +15,5 @@
 
 # Configuration for the Oracle APM Agent framework
 ---
-version: 0.+
+version: 18.+
 repository_root: https://harry-check-app.cfapps.io/apm-agents
