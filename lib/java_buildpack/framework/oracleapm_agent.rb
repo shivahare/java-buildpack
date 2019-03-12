@@ -24,29 +24,19 @@ module JavaBuildpack
     # Encapsulates the functionality for enabling zero-touch Oracle APM Agent support.
     class OracleapmAgent < JavaBuildpack::Component::VersionedDependencyComponent
 
-      # Creates an instance
-      #
-      # @param [Hash] context a collection of utilities used the component
-      def initialize(context)
-        super(context)
-        # @version, @uri = agent_download_url if supports?
-      end
-
-      # Download Agent URL
-      def agent_download_url
-        credentials = @application.services.find_service(FILTER)['credentials']
-        agent_uri = credentials[AGENT_ZIP_URI]
-        ['latest', agent_uri]
-      end
-
       # (see JavaBuildpack::Component::BaseComponent#compile)
       def compile
         credentials = @application.services.find_service(FILTER)['credentials']
 
         # download APM agent zip file
         download_zip false
-        # expect(@droplet.sandbox + "ProvisionApmJavaAsAgent.sh").to exist
-        # expect(@droplet.sandbox + "apmagent/lib/system/ApmAgentInstrumentation.jar").to exist
+
+        # provision oracle apm agent
+        provision(credentials)
+      end
+
+      # provision apm agent
+      def provision(credentials)
         # Run apm provisioning script to install agent
         inputmap = create_map_with_variables(credentials)
         run_apm_provision_script(inputmap)
@@ -121,7 +111,6 @@ module JavaBuildpack
         build_provision_cmd_fourth(provision_cmd, name_parts)
         build_provision_cmd_fifth(provision_cmd, target_directory, name_parts)
 
-        puts "command : #{provision_cmd.string}"
         Dir.chdir target_directory do
           # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet
           # -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url
@@ -129,11 +118,9 @@ module JavaBuildpack
           java_bin = "JAVA_BIN=#{@droplet.java_home.root}/bin/java"
           # puts " java : #{java_bin}"
           shell "echo #{java_bin} > Provision.sh"
-          # shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
-          # shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
-          # shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
-          # shell 'cat ' + "#{target_directory}/ProvisionApmJavaAsAgent.sh >> #{target_directory}/Provision.sh"
-          copy_content("#{target_directory}/ProvisionApmJavaAsAgent.sh", "#{target_directory}/Provision.sh")
+          shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
+          shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> Provision.sh"
+          shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
           shell 'chmod +x Provision.sh'
           shell provision_cmd.to_s
         end
@@ -143,7 +130,7 @@ module JavaBuildpack
       def print_log(target_directory,
                     name,
                     nv = {})
-        # shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
+        shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
         puts "target directory = #{target_directory}"
         puts "component name = #{name}"
         puts 'tenant_id : ' + nv.fetch('tenantid') if not_null?(nv.fetch('tenantid'))
@@ -221,19 +208,6 @@ module JavaBuildpack
       # To check if not null
       def not_null?(value)
         !value.nil?
-      end
-
-      # Copy Content
-      def copy_content(inputfile, outputfile)
-        File.open(inputfile.to_s, 'rb') do |input|
-          File.open(outputfile.to_s, 'a') do |output|
-            buff = input.read(4096)
-            while not_null?(buff)
-              output.write(buff)
-              buff = input.read(4096)
-            end
-          end
-        end
       end
 
       # (see JavaBuildpack::Component::BaseComponent#release)

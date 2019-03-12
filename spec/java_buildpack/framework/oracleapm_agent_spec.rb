@@ -41,9 +41,10 @@ describe JavaBuildpack::Framework::OracleapmAgent do
     end
 
     it 'downloads OracleAPM agent JAR',
-       cache_fixture: 'stub-oracleapm-agent.jar' do
+       cache_fixture: 'stub-oracleapm-agent.zip' do
 
       component.compile
+      expect(sandbox + 'ProvisionApmJavaAsAgent.sh').to exist
     end
 
     it 'updates JAVA_OPTS' do
