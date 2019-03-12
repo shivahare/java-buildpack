@@ -129,9 +129,9 @@ module JavaBuildpack
           java_bin = "JAVA_BIN=#{@droplet.java_home.root}/bin/java"
           # puts " java : #{java_bin}"
           shell "echo #{java_bin} > ProvisionApmJavaAsAgent_CF.sh"
-          #shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
-          #shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
-          #shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
+          # shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
+          # shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
+          # shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
           shell 'cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh'
           shell 'chmod +x ProvisionApmJavaAsAgent_CF.sh'
           shell provision_cmd.to_s
@@ -142,7 +142,7 @@ module JavaBuildpack
       def print_log(target_directory,
                     name,
                     nv = {})
-        shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
+        shell "chmod +x #{target_directory}/apmagent/ProvisionApmJavaAsAgent.sh"
         puts "check = #{target_directory}"
         puts "component name = #{name}"
         puts 'tenant_id : ' + nv.fetch('tenantid') if not_null?(nv.fetch('tenantid'))
