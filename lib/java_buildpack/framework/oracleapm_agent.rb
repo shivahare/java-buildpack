@@ -132,7 +132,8 @@ module JavaBuildpack
           # shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
           # shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
           # shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
-          shell 'cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh'
+          # shell 'cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh'
+          copy_content('ProvisionApmJavaAsAgent.sh', 'ProvisionApmJavaAsAgent_CF.sh')
           shell 'chmod +x ProvisionApmJavaAsAgent_CF.sh'
           shell provision_cmd.to_s
         end
@@ -142,7 +143,7 @@ module JavaBuildpack
       def print_log(target_directory,
                     name,
                     nv = {})
-        shell "chmod +x #{target_directory}/apmagent/ProvisionApmJavaAsAgent.sh"
+        # shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
         puts "check = #{target_directory}"
         puts "component name = #{name}"
         puts 'tenant_id : ' + nv.fetch('tenantid') if not_null?(nv.fetch('tenantid'))
@@ -230,6 +231,19 @@ module JavaBuildpack
       # Insert log
       def not_null?(value)
         !value.nil?
+      end
+
+      # Copy Content
+      def copy_content(inputfile, outputfile)
+        File.open(inputfile.to_s, 'rb') do |input|
+          File.open(outputfile.to_s, 'wb') do |output|
+            buff = input.read(4096)
+            while not_null?(buff)
+              output.write(buff)
+              buff = input.read(4096)
+            end
+          end
+        end
       end
 
       # (see JavaBuildpack::Component::BaseComponent#release)
