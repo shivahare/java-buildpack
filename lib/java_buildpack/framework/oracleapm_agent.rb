@@ -226,7 +226,7 @@ module JavaBuildpack
       # Copy Content
       def copy_content(inputfile, outputfile)
         File.open(inputfile.to_s, 'rb') do |input|
-          File.open(outputfile.to_s, 'wb') do |output|
+          File.open(outputfile.to_s, 'a') do |output|
             buff = input.read(4096)
             while not_null?(buff)
               output.write(buff)
