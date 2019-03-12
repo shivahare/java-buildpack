@@ -59,8 +59,6 @@ module JavaBuildpack
         add_startup_props = credentials[STARTUP_PROPERTIES]
         validate_startup_props(add_startup_props)
 
-        create_aspect_file
-
         # shell "rm -rf oracle"
       end
 
@@ -106,18 +104,6 @@ module JavaBuildpack
         add_startup_props.split(',').each do |property|
           shell "echo #{property} >> " + agent_startup
         end
-      end
-
-      # Create aspect file
-      def create_aspect_file
-        aspect_filters = 'oracle/apmaas/agent/instrumentation/Aspect.filters'
-        target_directory = @droplet.sandbox
-        # shell "unzip -x #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar " + aspect_filters
-        # shell "sed '/EXCLUDE/a  org.cloudfoundry.tomcat.logging.'" + aspect_filters + ' > Aspect.filters_temp'
-        # shell 'cat Aspect.filters_temp > ' + aspect_filters
-        # shell "zip -u #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar " + aspect_filters
-        # shell 'rm Aspect.filters_temp'
-        puts 'exiting the aspect filter method'
       end
 
       # Run the provision script
@@ -258,7 +244,7 @@ module JavaBuildpack
 
       # (see JavaBuildpack::Component::BaseComponent#release)
       def release
-        # @droplet.java_opts.add_javaagent(@droplet.sandbox + 'apmagent/lib/system/ApmAgentInstrumentation.jar')
+         @droplet.java_opts.add_javaagent(@droplet.sandbox + 'apmagent/lib/system/ApmAgentInstrumentation.jar')
       end
 
       protected
