@@ -147,7 +147,9 @@ module JavaBuildpack
           shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
           # shell 'cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh'
           shell 'chmod +x ProvisionApmJavaAsAgent_CF.sh'
+        puts "Running command : #{provision_cmd.string}"
           shell provision_cmd.to_s
+        puts "Done with run_apm_provision_script"
         end
       end
 
