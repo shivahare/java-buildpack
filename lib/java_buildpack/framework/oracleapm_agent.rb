@@ -110,8 +110,8 @@ module JavaBuildpack
 
       # Create aspect file
       def create_aspect_file
-        aspect_filters = 'oracle/apmaas/agent/instrumentation/Aspect.filters'
-        target_directory = @droplet.sandbox
+        # aspect_filters = 'oracle/apmaas/agent/instrumentation/Aspect.filters'
+        # target_directory = @droplet.sandbox
         # shell "unzip -x #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar " + aspect_filters
         # shell "sed '/EXCLUDE/a  org.cloudfoundry.tomcat.logging.'" + aspect_filters + ' > Aspect.filters_temp'
         # shell 'cat Aspect.filters_temp > ' + aspect_filters
@@ -148,35 +148,29 @@ module JavaBuildpack
           shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
           # shell 'cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh'
           shell 'chmod +x ProvisionApmJavaAsAgent_CF.sh'
-        puts "Running command : #{provision_cmd.string}"
           shell provision_cmd.to_s
-        puts "Done with run_apm_provision_script"
         end
       end
 
       # Print log
       def print_log(target_directory,
                     name,
-                    name_values = {})
+                    nv = {})
         shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
         puts "check = #{target_directory}"
         puts "component name = #{name}"
-        puts 'tenant_id : ' + name_values.fetch('tenantid') if not_null?(name_values.fetch('tenantid'))
-        puts 'reg_key : ' + name_values.fetch('regkey') if not_null?(name_values.fetch('regkey'))
-        puts 'omc_url : ' + name_values.fetch('omcurl') if not_null?(name_values.fetch('omcurl'))
-        puts 'gateway_host : ' + name_values.fetch('gatewayh') if not_null?(name_values.fetch('gatewayh'))
-        puts 'entered'
-        puts 'exit'
+        puts 'tenant_id : ' + nv.fetch('tenantid') if not_null?(nv.fetch('tenantid'))
+        puts 'reg_key : ' + nv.fetch('regkey') if not_null?(nv.fetch('regkey'))
+        puts 'omc_url : ' + nv.fetch('omcurl') if not_null?(nv.fetch('omcurl'))
       end
 
       # Insert log
       def log_proxy_gateway_info(nv = {})
-        puts 'entered log proxy gateway info'
+        puts 'gateway_host : ' + nv.fetch('gatewayh') if not_null?(nv.fetch('gatewayh'))
         puts 'gateway_port : ' + nv.fetch('gatewayp') if not_null?(nv.fetch('gatewayp'))
         puts 'proxy_host : ' + nv.fetch('proxyhost') if not_null?(nv.fetch('proxyhost'))
         puts 'proxy_port : ' + nv.fetch('proxyport') if not_null?(nv.fetch('proxyport'))
         puts 'classifications : ' + nv.fetch('classifications') if not_null?(nv.fetch('classifications'))
-        puts 'exit log proxy gateway info'
       end
 
       # Insert log
