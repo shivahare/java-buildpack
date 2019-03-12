@@ -112,11 +112,12 @@ module JavaBuildpack
       def create_aspect_file
         aspect_filters = 'oracle/apmaas/agent/instrumentation/Aspect.filters'
         target_directory = @droplet.sandbox
-        shell "unzip -x #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar " + aspect_filters
-        shell "sed '/EXCLUDE/a  org.cloudfoundry.tomcat.logging.'" + aspect_filters + ' > Aspect.filters_temp'
-        shell 'cat Aspect.filters_temp > ' + aspect_filters
-        shell "zip -u #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar " + aspect_filters
-        shell 'rm Aspect.filters_temp'
+        # shell "unzip -x #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar " + aspect_filters
+        # shell "sed '/EXCLUDE/a  org.cloudfoundry.tomcat.logging.'" + aspect_filters + ' > Aspect.filters_temp'
+        # shell 'cat Aspect.filters_temp > ' + aspect_filters
+        # shell "zip -u #{target_directory}/apmagent/lib/system/ApmAgentInstrumentation.jar " + aspect_filters
+        # shell 'rm Aspect.filters_temp'
+        puts 'exiting the aspect filter method'
       end
 
       # Run the provision script
