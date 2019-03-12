@@ -48,8 +48,8 @@ describe JavaBuildpack::Framework::OracleapmAgent do
 
     it 'updates JAVA_OPTS' do
       component.release
-       java_agent = '-javaagent:$PWD/.java-buildpack/oracleapm_agent/apmagent/lib/system/ApmAgentInstrumentation.jar'
-       expect(java_opts).to include(java_agent)
+      java_agent = '-javaagent:$PWD/.java-buildpack/oracleapm_agent/apmagent/lib/system/ApmAgentInstrumentation.jar'
+      expect(java_opts).to include(java_agent)
     end
 
   end

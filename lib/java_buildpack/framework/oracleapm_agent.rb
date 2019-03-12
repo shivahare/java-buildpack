@@ -127,11 +127,11 @@ module JavaBuildpack
           # -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url
           #  #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
           java_bin = "JAVA_BIN=#{@droplet.java_home.root}/bin/java"
-          puts " java : #{java_bin}"
+          # puts " java : #{java_bin}"
           shell "echo #{java_bin} > ProvisionApmJavaAsAgent_CF.sh"
           shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
           shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
-          shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
+          # shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
           # shell 'cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh'
           shell 'chmod +x ProvisionApmJavaAsAgent_CF.sh'
           shell provision_cmd.to_s
@@ -156,26 +156,22 @@ module JavaBuildpack
         puts 'gateway_port : ' + nv.fetch('gatewayp') if not_null?(nv.fetch('gatewayp'))
         puts 'proxy_host : ' + nv.fetch('proxyhost') if not_null?(nv.fetch('proxyhost'))
         puts 'proxy_port : ' + nv.fetch('proxyport') if not_null?(nv.fetch('proxyport'))
-        puts 'classifications : ' + nv.fetch('classifications') if not_null?(nv.fetch('classifications'))
       end
 
       # Insert log
       def log_misc_info(nv = {})
-        puts 'entered log misc info'
+        puts 'classifications : ' + nv.fetch('classifications') if not_null?(nv.fetch('classifications'))
         puts 'proxy_auth_token : ' + nv.fetch('proxyauthtoken') if not_null?(nv.fetch('proxyauthtoken'))
         puts 'additional_gateways : ' + nv.fetch('additionalgateway') if not_null?(nv.fetch('additionalgateway'))
         puts "java_home : #{@droplet.java_home.root}"
-        puts 'v : ' + nv.fetch('v') if not_null?(nv.fetch('v'))
-        puts 'exit log misc info'
       end
 
       # Insert log
       def log_additional_info(nv = {})
-        puts 'entered log additional info'
+        puts 'v : ' + nv.fetch('v') if not_null?(nv.fetch('v'))
         puts 'h : ' + nv.fetch('h') if not_null?(nv.fetch('h'))
         puts 'debug : ' + nv.fetch('debug') if not_null?(nv.fetch('debug'))
         puts 'insecure : ' + nv.fetch('insecure') if not_null?(nv.fetch('insecure'))
-        puts 'exit log additional info'
       end
 
       # Insert log
@@ -238,7 +234,7 @@ module JavaBuildpack
 
       # (see JavaBuildpack::Component::BaseComponent#release)
       def release
-         @droplet.java_opts.add_javaagent(@droplet.sandbox + 'apmagent/lib/system/ApmAgentInstrumentation.jar')
+        @droplet.java_opts.add_javaagent(@droplet.sandbox + 'apmagent/lib/system/ApmAgentInstrumentation.jar')
       end
 
       protected
