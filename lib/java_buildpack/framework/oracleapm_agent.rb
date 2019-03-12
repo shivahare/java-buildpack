@@ -128,13 +128,13 @@ module JavaBuildpack
           #  #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
           java_bin = "JAVA_BIN=#{@droplet.java_home.root}/bin/java"
           # puts " java : #{java_bin}"
-          shell "echo #{java_bin} > ProvisionApmJavaAsAgent_CF.sh"
+          shell "echo #{java_bin} > Provision.sh"
           # shell "sed -e 's/locate_java$/#locate_java/g' ProvisionApmJavaAsAgent.sh > ProvisionApmJavaAsAgent_tmp.sh"
           # shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> ProvisionApmJavaAsAgent_CF.sh"
           # shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
-          # shell 'cat ProvisionApmJavaAsAgent.sh >> ProvisionApmJavaAsAgent_CF.sh'
-          copy_content('ProvisionApmJavaAsAgent.sh', 'ProvisionApmJavaAsAgent_CF.sh')
-          shell 'chmod +x ProvisionApmJavaAsAgent_CF.sh'
+          # shell 'cat ' + "#{target_directory}/ProvisionApmJavaAsAgent.sh >> #{target_directory}/Provision.sh"
+          copy_content("#{target_directory}/ProvisionApmJavaAsAgent.sh", "#{target_directory}/Provision.sh")
+          shell 'chmod +x Provision.sh'
           shell provision_cmd.to_s
         end
       end
@@ -144,7 +144,7 @@ module JavaBuildpack
                     name,
                     nv = {})
         # shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
-        puts "check = #{target_directory}"
+        puts "target directory = #{target_directory}"
         puts "component name = #{name}"
         puts 'tenant_id : ' + nv.fetch('tenantid') if not_null?(nv.fetch('tenantid'))
         puts 'reg_key : ' + nv.fetch('regkey') if not_null?(nv.fetch('regkey'))
@@ -178,7 +178,7 @@ module JavaBuildpack
       # Insert log
       def build_provision_cmd(provision_cmd, target_directory,
                               nv = {})
-        provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey " + nv.fetch('regkey') +
+        provision_cmd << "#{target_directory}/Provision.sh -regkey " + nv.fetch('regkey') +
 " -no-wallet -d #{target_directory} -exact-hostname -no-prompt"
         provision_cmd << ' -tenant-id ' + nv.fetch('tenantid') if not_blank?(nv.fetch('tenantid'))
         provision_cmd << ' -omc-server-url ' + nv.fetch('omcurl') if not_blank?(nv.fetch('omcurl'))
