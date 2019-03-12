@@ -162,67 +162,85 @@ module JavaBuildpack
         puts 'reg_key : ' + name_values.fetch('regkey') if not_null?(name_values.fetch('regkey'))
         puts 'omc_url : ' + name_values.fetch('omcurl') if not_null?(name_values.fetch('omcurl'))
         puts 'gateway_host : ' + name_values.fetch('gatewayh') if not_null?(name_values.fetch('gatewayh'))
+        puts 'entered'
+        puts 'exit'
       end
 
       # Insert log
       def log_proxy_gateway_info(nv = {})
+        puts 'entered log proxy gateway info'
         puts 'gateway_port : ' + nv.fetch('gatewayp') if not_null?(nv.fetch('gatewayp'))
         puts 'proxy_host : ' + nv.fetch('proxyhost') if not_null?(nv.fetch('proxyhost'))
         puts 'proxy_port : ' + nv.fetch('proxyport') if not_null?(nv.fetch('proxyport'))
         puts 'classifications : ' + nv.fetch('classifications') if not_null?(nv.fetch('classifications'))
+        puts 'exit log proxy gateway info'
       end
 
       # Insert log
       def log_misc_info(nv = {})
+        puts 'entered log misc info'
         puts 'proxy_auth_token : ' + nv.fetch('proxyauthtoken') if not_null?(nv.fetch('proxyauthtoken'))
         puts 'additional_gateways : ' + nv.fetch('additionalgateway') if not_null?(nv.fetch('additionalgateway'))
         puts "java_home : #{@droplet.java_home.root}"
         puts 'v : ' + nv.fetch('v') if not_null?(nv.fetch('v'))
+        puts 'exit log misc info'
       end
 
       # Insert log
       def log_additional_info(nv = {})
+        puts 'entered log additional info'
         puts 'h : ' + nv.fetch('h') if not_null?(nv.fetch('h'))
         puts 'debug : ' + nv.fetch('debug') if not_null?(nv.fetch('debug'))
         puts 'insecure : ' + nv.fetch('insecure') if not_null?(nv.fetch('insecure'))
+        puts 'exit log additional info'
       end
 
       # Insert log
       def build_provision_cmd(provision_cmd, target_directory,
                               nv = {})
+        puts 'entered build provision cmd'
         provision_cmd << "#{target_directory}/ProvisionApmJavaAsAgent_CF.sh -regkey " + nv.fetch('regkey') +
 " -no-wallet -d #{target_directory} -exact-hostname -no-prompt"
         provision_cmd << ' -tenant-id ' + nv.fetch('tenantid') if not_blank?(nv.fetch('tenantid'))
         provision_cmd << ' -omc-server-url ' + nv.fetch('omcurl') if not_blank?(nv.fetch('omcurl'))
+        puts 'exit build provision cmd'
       end
 
       # Insert log
       def build_provision_cmd_second(provision_cmd, nv = {})
+        puts 'entered build provision cmd second'
         provision_cmd << ' -gateway-host ' + nv.fetch('gatewayh') if not_blank?(nv.fetch('gatewayh'))
         provision_cmd << ' -gateway-port ' + nv.fetch('gatewayp') if not_blank?(nv.fetch('gatewayp'))
         provision_cmd << ' -ph ' + nv.fetch('proxyhost') if not_blank?(nv.fetch('proxyhost'))
+        puts 'exit build provision cmd second'
       end
 
       # Insert log
       def build_provision_cmd_third(provision_cmd, nv = {})
+        puts 'entered build provision cmd third'
         provision_cmd << ' -pp ' + nv.fetch('proxyport') if not_blank?(nv.fetch('proxyport'))
         provision_cmd << ' -classifications ' + nv.fetch('classifications') if not_blank?(nv.fetch('classifications'))
         provision_cmd << ' -pt ' + nv.fetch('proxyauthtoken') if not_blank?(nv.fetch('proxyauthtoken'))
+        puts 'exit build provision cmd third'
       end
 
       # Insert log
       def build_provision_cmd_fourth(provision_cmd, nv = {})
+        puts 'entered  build provision cmd fourth'
         gateway = nv.fetch('additionalgateway')
         provision_cmd << " -additional-gateways #{gateway}" if not_blank?(nv.fetch('additionalgateway'))
         provision_cmd << ' -h ' + nv.fetch('h') if not_blank?(nv.fetch('h'))
+        puts 'exit build provision cmd fourth'
       end
 
       # Insert log
       def build_provision_cmd_fifth(provision_cmd, target_directory, nv = {})
+        puts 'entered build provision cmd fifth'
         provision_cmd << ' -v ' if not_null?(nv.fetch('v'))
         provision_cmd << ' -debug ' if not_null?(nv.fetch('debug'))
         provision_cmd << ' -insecure ' if not_null?(nv.fetch('insecure'))
         provision_cmd << "  > #{target_directory}/provisionApmAgent.log "
+        puts 'exit build provision cmd fifth'
       end
 
       # Insert log
