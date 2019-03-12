@@ -32,14 +32,14 @@ module JavaBuildpack
         download_zip false
 
         # provision oracle apm agent
-        provision(credentials)
+        provision_apm_agent(credentials)
       end
 
       # provision apm agent
-      def provision(credentials)
+      def provision_apm_agent(credentials)
         # Run apm provisioning script to install agent
-        inputmap = create_map_with_variables(credentials)
-        run_apm_provision_script(inputmap)
+        input_map = create_map_with_variables(credentials)
+        run_apm_provision_script(input_map)
         cert = credentials[CERTIFICATE]
         validate_cert_not_blank(cert)
 
@@ -130,7 +130,7 @@ module JavaBuildpack
       def print_log(target_directory,
                     name,
                     nv = {})
-        shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
+        # shell "chmod +x #{target_directory}/ProvisionApmJavaAsAgent.sh"
         puts "target directory = #{target_directory}"
         puts "component name = #{name}"
         puts 'tenant_id : ' + nv.fetch('tenantid') if not_null?(nv.fetch('tenantid'))
