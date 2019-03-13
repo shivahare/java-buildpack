@@ -128,7 +128,7 @@ module JavaBuildpack
       end
 
       # below is command used to provision apm agent
-      # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet
+      # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey}
       # -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url
       # #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
 
@@ -172,7 +172,7 @@ module JavaBuildpack
       def build_provision_cmd(provision_cmd, target_directory,
                               nv = {})
         provision_cmd << "#{target_directory}/Provision.sh -regkey " + nv.fetch('regkey') +
-" -no-wallet -d #{target_directory} -exact-hostname -no-prompt"
+"  -d #{target_directory} -exact-hostname -no-prompt"
         provision_cmd << ' -tenant-id ' + nv.fetch('tenantid') if not_blank?(nv.fetch('tenantid'))
         provision_cmd << ' -omc-server-url ' + nv.fetch('omcurl') if not_blank?(nv.fetch('omcurl'))
       end
