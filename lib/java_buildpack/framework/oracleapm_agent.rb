@@ -30,9 +30,10 @@ module JavaBuildpack
         @version = agent_download_version if supports?
       end
 
+      # set desired apm download version
       def agent_download_version
         # credentials = @application.services.find_service(FILTER)['credentials']
-        ['18.2.3_01']
+        ['18.2.3_04']
       end
 
       # (see JavaBuildpack::Component::BaseComponent#compile)
