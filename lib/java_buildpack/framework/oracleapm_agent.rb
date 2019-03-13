@@ -27,13 +27,13 @@ module JavaBuildpack
       # @param [Hash] context a collection of utilities used the component
       def initialize(context)
         super(context)
-        @version = agent_download_version if supports?
+        # @version = agent_download_version if supports?
       end
 
       # set desired apm download version
       def agent_download_version
         # credentials = @application.services.find_service(FILTER)['credentials']
-        ['19.2.3_02']
+        ['29.2.3_02']
       end
 
       # (see JavaBuildpack::Component::BaseComponent#compile)
