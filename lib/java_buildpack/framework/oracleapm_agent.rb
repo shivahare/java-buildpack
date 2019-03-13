@@ -27,7 +27,12 @@ module JavaBuildpack
       # @param [Hash] context a collection of utilities used the component
       def initialize(context)
         super(context)
-        @version = '18.2.3_01'
+        @version = agent_download_version if supports?
+      end
+
+      def agent_download_version
+        # credentials = @application.services.find_service(FILTER)['credentials']
+        ['18.2.3_01']
       end
 
       # (see JavaBuildpack::Component::BaseComponent#compile)
