@@ -123,7 +123,7 @@ module JavaBuildpack
           shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
           shell 'chmod +x Provision.sh'
           puts  "Provision Command : #{provision_cmd.string}"
-          # shell "#{provision_cmd.string}"
+          shell "#{provision_cmd.string}"
         end
       end
 
