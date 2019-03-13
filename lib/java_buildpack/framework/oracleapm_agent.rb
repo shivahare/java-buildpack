@@ -37,8 +37,9 @@ module JavaBuildpack
 
       # provision apm agent
       def provision_apm_agent(credentials)
-        # Run apm provisioning script to install agent
+        # populate input map
         input_map = create_map_with_variables(credentials)
+        # Run apm provisioning script to install agent
         run_apm_provision_script(input_map)
         cert = credentials[CERTIFICATE]
         validate_cert_not_blank(cert)
@@ -111,10 +112,9 @@ module JavaBuildpack
         build_provision_cmd_fourth(provision_cmd, name_parts)
         build_provision_cmd_fifth(provision_cmd, target_directory, name_parts)
 
+        # Switch to apm directory and make necessary changes to Provisioning script
+        # we need to explicitly set the JAVA_BIN path
         Dir.chdir target_directory do
-          # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet
-          # -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url
-          #  #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
           java_bin = "JAVA_BIN=#{@droplet.java_home.root}/bin/java"
           # puts " java : #{java_bin}"
           shell "echo #{java_bin} > Provision.sh"
@@ -125,6 +125,11 @@ module JavaBuildpack
           shell provision_cmd.to_s
         end
       end
+
+      # below is command used to provision apm agent
+      # shell "#{target_directory}/ProvisionApmJavaAsAgent.sh -regkey #{regkey} -no-wallet
+      # -ph #{proxy_host} -d #{target_directory} -exact-hostname -no-prompt -omc-server-url
+      # #{omc_url} -tenant-id  #{tenant_id} -java-home #{@droplet.java_home.root} 2>&1"
 
       # Print log
       def print_log(target_directory,
