@@ -122,6 +122,7 @@ module JavaBuildpack
           shell "sed -e 's/^_java=/_java=$JAVA_BIN/g' ProvisionApmJavaAsAgent_tmp.sh >> Provision.sh"
           shell 'rm ProvisionApmJavaAsAgent_tmp.sh'
           shell 'chmod +x Provision.sh'
+          puts 'provision_cmd.to_s'
           shell provision_cmd.to_s
         end
       end
