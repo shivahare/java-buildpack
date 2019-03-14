@@ -20,7 +20,7 @@ Below are steps to configure application with APM Agent Service : <br/>
 </li>
 <li>
  Configure oracle apm agent service using cups e.g. <br/>
- cf cups oracleapm -p "{\"regkey\":\"<regkey value>\",\"tenant-id\":\"<tenant_id>\",\"omc-server-url\":\"<omc service url>\",\"agent-uri\":\"<apmagent.zip http download location>\"}"
+ cf cups oracleapm -p "{\"regkey\":\"<regkey value>\",\"tenant-id\":\"<tenant_id>\",\"omc-server-url\":\"<omc service url>\"}"
 </li>
 <li>
 Restage application <br/> 
@@ -41,7 +41,6 @@ The credential payload of the service may contain the following entries:
 | Name | Description
 | ---- | -----------
 | `additional-gateways` |  (Optional) Comma separated list of gateway URLs. A valid gateway URL is in this format: https://host:port
-| `agent-uri` | 	Specify APM agent installer zip location e.g. https://<host>:<port>/1.32_APM_226.zip  
 | `classifications` | (Optional) Specify a classifications string that will be sent to the OMC server
 | `debug` | Log extended debug information
 | `gateway-host` | (Optional) The gateway host through which the APM java agent communicates with the OMC server.
