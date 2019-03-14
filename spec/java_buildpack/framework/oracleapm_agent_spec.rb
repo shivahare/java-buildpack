@@ -30,7 +30,7 @@ describe JavaBuildpack::Framework::OracleapmAgent do
   context do
 
     before do
-      allow(services).to receive(:one_service?).with(/oracleapm/, 'regkey', 'agent-uri').and_return(true)
+      allow(services).to receive(:one_service?).with(/oracleapm/, 'regkey').and_return(true)
       allow(services).to receive(:find_service).and_return('credentials' => { 'regkey' => 'test-regkey',
                                                                               'omc-server-url' => 'test-omc-server-url',
                                                                               'tenant-id' => 'test-tenant-id' })

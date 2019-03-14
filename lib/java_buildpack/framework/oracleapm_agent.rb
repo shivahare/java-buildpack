@@ -225,7 +225,7 @@ module JavaBuildpack
 
       # (see JavaBuildpack::Component::VersionedDependencyComponent#supports?)
       def supports?
-        @application.services.one_service? FILTER, REGKEY, AGENT_ZIP_URI
+        @application.services.one_service? FILTER, REGKEY
       end
 
       FILTER = /oracleapm/
@@ -240,7 +240,6 @@ module JavaBuildpack
       PROXY_PORT          = 'pp'
       PROXY_AUTH_TOKEN    = 'pt'
       ADDITIONAL_GATEWAY  = 'additional-gateways'
-      AGENT_ZIP_URI       = 'agent-uri'
       V                   = 'v'
       DEBUG               = 'debug'
       INSECURE            = 'insecure'
@@ -251,7 +250,7 @@ module JavaBuildpack
 
       private_constant :FILTER, :OMC_URL, :TENANT_ID, :REGKEY, :GATEWAY_HOST, :GATEWAY_PORT,
                        :CLASSIFICATIONS, :PROXY_HOST, :PROXY_PORT, :PROXY_AUTH_TOKEN, :ADDITIONAL_GATEWAY,
-                       :AGENT_ZIP_URI, :V, :DEBUG, :INSECURE, :H, :CERTIFICATE, :TRUST_HOST, :STARTUP_PROPERTIES
+                       :V, :DEBUG, :INSECURE, :H, :CERTIFICATE, :TRUST_HOST, :STARTUP_PROPERTIES
 
     end
   end
